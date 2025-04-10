@@ -1,0 +1,104 @@
+body {
+    font-family: 'Poppins',sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #D0E6CF; /* Light Green */
+    color: #333;
+}
+header {
+    background-color: #315A43; /* Dark Green */
+    color: white;
+    text-align: center;
+    padding: 1em;
+}
+main {
+    display:flex;
+    flex-direction: column;
+    line-height: 50px;
+    padding: 20px;
+    text-align: center;
+    background-color:white;
+    width:fit-content;
+    border-radius:15px;
+    margin:auto;
+    margin-top:50px;
+    margin-bottom:100px;
+    transition:transform 0.3s ease-in-out;
+}
+main:hover{
+    transform: scale(1.05);
+    box-shadow: 2px 2px 15px 4px #656665 !important; /* More glow */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    header {
+        padding: 0.8em;
+    }
+    main {
+        padding: 15px;
+    }
+}
+
+/* Styling Buttons */
+button {
+    background-color: #466e59;
+    padding: 10px;
+    margin-left: 10px;
+    border: 1px solid #466e59;
+    border-radius: 5px;
+    cursor: pointer;
+    color:#fff;
+    transition:all 0.3s ease-in-out;
+}
+button:hover{
+    transform: scale(1.05);
+    box-shadow: 2px 2px 15px 4px #0ad82c !important; /* More glow */
+    background-color: #fff;
+    color: #0ad82c; 
+    border-color:#0ad82c;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: auto;
+    padding:20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 2px solid #466e59;
+    border-radius: 5px;
+    font-size: 15px;
+    min-width:400px;
+    min-height:45px;
+    max-width:fit-content;
+}
+
+input:focus, textarea:focus {
+    outline:none;
+    box-shadow: 2px 2px 15px 4px #0ad82c;
+}
+input:hover, textarea:hover{
+    box-shadow: 2px 2px 15px 4px #0ad82c;
+}
+
+
+/* Mobile FAQ Adjustments */
+@media (max-width: 480px) {
+    .faq-item h3 {
+        font-size: 16px;
+    }
+    .answer {
+        font-size: 14px;
+    }
+}

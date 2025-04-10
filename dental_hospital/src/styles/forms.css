@@ -1,0 +1,141 @@
+/* Form Container */
+#appointment-container,
+#login-container,
+#register-container {
+    position: relative; /* Ensures it's inside the normal document flow */
+    margin: 120px auto; /* Adds space from the top */
+    background: #74ae8e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Heading */
+#appointment-container h1,
+#login-container h1,
+#register-container h1 {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form Labels */
+form label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+    color: white;
+}
+
+/* Input Fields */
+form input, 
+form textarea,
+#treatment {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #7abd9b;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+#treatment{
+    width:400px;
+}
+
+form input:focus,
+form textarea:focus,
+#treatment:focus{
+    outline: none;
+    box-shadow: 2px 2px 15px 4px #0ad82c;
+}
+
+form input:hover,
+form textarea:hover,
+#treatment:hover{
+    box-shadow: 2px 2px 15px 4px #0ad82c; /* Increased blur for glow effect */
+}
+
+/* Textarea */
+form textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Submit Button */
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #7abd9b;
+    border: 1px solid #7abd9b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: #fff;
+    color: #7abd9b;
+}
+
+.error-msg {
+    color: red;
+    font-size: small;
+    display: inline-block;
+    margin-top: 0px;
+}
+
+/* Links between forms */
+.form-link {
+    margin-top: 15px;
+    color: white;
+    text-align: center;
+}
+
+.form-link a {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Scroll animation effects */
+.hidden {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 1s;
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+.hidden1 {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(100%);
+    transition: all 1s;
+}
+
+.show1 {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #appointment-container,
+    #login-container,
+    #register-container {
+        width: 80%;
+        padding: 20px;
+    }
+}

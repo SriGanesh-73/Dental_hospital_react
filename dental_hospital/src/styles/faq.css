@@ -1,0 +1,81 @@
+/* FAQ Container */
+#faq-container {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #9bd4b5;
+    padding:50px;
+    color:#2c503c;
+    width:100%;
+}
+.faq-list{
+    width:60%;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+/* Style each FAQ item */
+#faq-container .faq-item {
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    padding:1rem;
+}
+
+/* Style the question */
+#faq-container .faq-item .faq-question {
+    cursor: pointer;
+    margin: 0;
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Style the answer */
+#faq-container .faq-item .faq-answer {
+    font-weight: bold;
+    margin: 0;
+    padding-top: 10px;
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Show answer when active */
+#faq-container .faq-item.open .faq-answer {
+    max-height: 200px;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Add hover effect on question */
+#faq-container .faq-item .faq-question:hover {
+    text-shadow: 0 0 5px #0ad82c, 0 0 10px #0ad82c, 0 0 15px #0ad82c, 0 0 20px #0ad82c;
+    color: #fff;
+}
+
+.faq-arrow {
+    transition: transform 0.3s ease;
+}
+
+.faq-arrow .rotated {
+    transform: rotate(90deg);
+}
+
+.faq-answer {
+    margin-top: 0.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
