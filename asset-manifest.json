@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/Dental_hospital_react/static/css/main.ed4ca0cb.css",
+    "main.js": "/Dental_hospital_react/static/js/main.297f8569.js",
+    "static/js/453.68156b11.chunk.js": "/Dental_hospital_react/static/js/453.68156b11.chunk.js",
+    "static/media/doctor_1.jpg": "/Dental_hospital_react/static/media/doctor_1.956086521d24d342d7ad.jpg",
+    "static/media/dental_filling.png": "/Dental_hospital_react/static/media/dental_filling.d6bc85c2e5f3ea679731.png",
+    "static/media/Root-Canal-Treatment.jpeg": "/Dental_hospital_react/static/media/Root-Canal-Treatment.0294411e699c15cd455b.jpeg",
+    "static/media/dental-clinic-instruments.jpg": "/Dental_hospital_react/static/media/dental-clinic-instruments.9cbf5356e39583ee1a23.jpg",
+    "static/media/EasyBooking.jpg": "/Dental_hospital_react/static/media/EasyBooking.b1524c088e3999527363.jpg",
+    "static/media/Removable-Dentures.jpg": "/Dental_hospital_react/static/media/Removable-Dentures.d407ec319f389ee05a3e.jpg",
+    "static/media/logo.webp": "/Dental_hospital_react/static/media/logo.38fd12daf1519dfa94ee.webp",
+    "static/media/caps_crowns.jpg": "/Dental_hospital_react/static/media/caps_crowns.b43c95fd3af451ab7351.jpg",
+    "static/media/hippa-icon.jpg": "/Dental_hospital_react/static/media/hippa-icon.a391317bab5217820bf9.jpg",
+    "static/media/icon7.png": "/Dental_hospital_react/static/media/icon7.6ab4785c0bd75d5dcd74.png",
+    "static/media/go-paperless.webp": "/Dental_hospital_react/static/media/go-paperless.1745908db1644b07533e.webp",
+    "static/media/teeth_whitening.jpg": "/Dental_hospital_react/static/media/teeth_whitening.0f9eab2656f79bef7d5c.jpg",
+    "static/media/communication.png": "/Dental_hospital_react/static/media/communication.ae17c33ea7b86bc1f31e.png",
+    "static/media/icon3.png": "/Dental_hospital_react/static/media/icon3.174b4f9da4c157ecd038.png",
+    "static/media/icon2.png": "/Dental_hospital_react/static/media/icon2.4b8d040c5c084aa1ea40.png",
+    "static/media/icon9.png": "/Dental_hospital_react/static/media/icon9.fe070affcfce89cb8819.png",
+    "static/media/icon5.png": "/Dental_hospital_react/static/media/icon5.d398416f088251d62d0b.png",
+    "static/media/dental_implants.jpg": "/Dental_hospital_react/static/media/dental_implants.f5c5d604519a44c8dede.jpg",
+    "static/media/icon4.png": "/Dental_hospital_react/static/media/icon4.a9f727a5abe497eb1449.png",
+    "static/media/icon6.png": "/Dental_hospital_react/static/media/icon6.f24b59fec7d892da98a6.png",
+    "static/media/Bracers_aligners.jpeg": "/Dental_hospital_react/static/media/Bracers_aligners.0988e5b48aa7d752645b.jpeg",
+    "static/media/icon8.png": "/Dental_hospital_react/static/media/icon8.ffa5b3b7a80ab0c10439.png",
+    "index.html": "/Dental_hospital_react/index.html",
+    "main.ed4ca0cb.css.map": "/Dental_hospital_react/static/css/main.ed4ca0cb.css.map",
+    "main.297f8569.js.map": "/Dental_hospital_react/static/js/main.297f8569.js.map",
+    "453.68156b11.chunk.js.map": "/Dental_hospital_react/static/js/453.68156b11.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ed4ca0cb.css",
+    "static/js/main.297f8569.js"
+  ]
+}
