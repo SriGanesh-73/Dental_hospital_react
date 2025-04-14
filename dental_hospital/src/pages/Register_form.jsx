@@ -118,7 +118,6 @@ const Register = () => {
     };
 
     // Enable this if you want to persist formData
-    /*
     useEffect(() => {
         const savedData = JSON.parse(localStorage.getItem("registerFormData"));
         if (savedData) setFormData(savedData);
@@ -127,7 +126,7 @@ const Register = () => {
     useEffect(() => {
         localStorage.setItem("registerFormData", JSON.stringify(formData));
     }, [formData]);
-    */
+    
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
