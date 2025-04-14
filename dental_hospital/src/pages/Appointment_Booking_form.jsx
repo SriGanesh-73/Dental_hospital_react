@@ -24,6 +24,19 @@ const AppointmentBooking = () => {
         treatment: ''
     });
 
+    // Load form data from localStorage
+    useEffect(() => {
+        const savedForm = localStorage.getItem('appointmentForm');
+        if (savedForm) {
+            setFormData(JSON.parse(savedForm));
+        }
+    }, []);
+
+    // Save form data to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('appointmentForm', JSON.stringify(formData));
+    }, [formData]);
+
     // Validation patterns
     const namePattern = /^[a-zA-Z\s]{3,}$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -105,6 +118,10 @@ const AppointmentBooking = () => {
         
         if (isValid) {
             alert(`Appointment booked successfully! on ${formData.time}`);
+            
+            // Clear localStorage
+            localStorage.removeItem('appointmentForm');
+
             // Reset form
             setFormData({
                 name: '',
@@ -121,26 +138,25 @@ const AppointmentBooking = () => {
     // Scroll animation effect
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const img = entry.target.querySelector(".hidden");
-            const text = entry.target.querySelector(".hidden1");
-            
-            if (entry.isIntersecting) {
-            if (img) img.classList.add("show");
-            if (text) text.classList.add("show1");
-            } else {
-            if (img) img.classList.remove("show");
-            if (text) text.classList.remove("show1");
-            }
-        });
+            entries.forEach((entry) => {
+                const img = entry.target.querySelector(".hidden");
+                const text = entry.target.querySelector(".hidden1");
+                
+                if (entry.isIntersecting) {
+                    if (img) img.classList.add("show");
+                    if (text) text.classList.add("show1");
+                } else {
+                    if (img) img.classList.remove("show");
+                    if (text) text.classList.remove("show1");
+                }
+            });
         }, { threshold: 0.2 });
         
-        // Observe the scroll containers
         const scrollContainers = document.querySelectorAll(".scroll-container");
         scrollContainers.forEach((container) => observer.observe(container));
         
         return () => {
-        scrollContainers.forEach((container) => observer.unobserve(container));
+            scrollContainers.forEach((container) => observer.unobserve(container));
         };
     }, []);
 

@@ -11,6 +11,19 @@ const ContactUs = () => {
         message: ''
     });
 
+    // Load saved data from localStorage on mount
+    useEffect(() => {
+        const savedForm = localStorage.getItem('contactForm');
+        if (savedForm) {
+            setFormData(JSON.parse(savedForm));
+        }
+    }, []);
+
+    // Save form data to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('contactForm', JSON.stringify(formData));
+    }, [formData]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -21,34 +34,42 @@ const ContactUs = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
         console.log('Form submitted:', formData);
-        // You can add validation and submission logic
+
+        // Optionally clear localStorage after submission
+        localStorage.removeItem('contactForm');
+
+        // Clear the form
+        setFormData({
+            name: '',
+            email: '',
+            message: ''
+        });
     };
+
     // Scroll animation effect
     useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-        const img = entry.target.querySelector(".hidden");
-        const text = entry.target.querySelector(".hidden1");
-        
-        if (entry.isIntersecting) {
-            if (img) img.classList.add("show");
-            if (text) text.classList.add("show1");
-        } else {
-            if (img) img.classList.remove("show");
-            if (text) text.classList.remove("show1");
-        }
-        });
-    }, { threshold: 0.2 });
-    
-    // Observe the scroll containers
-    const scrollContainers = document.querySelectorAll(".scroll-container");
-    scrollContainers.forEach((container) => observer.observe(container));
-    
-    return () => {
-        scrollContainers.forEach((container) => observer.unobserve(container));
-    };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const img = entry.target.querySelector(".hidden");
+                const text = entry.target.querySelector(".hidden1");
+
+                if (entry.isIntersecting) {
+                    if (img) img.classList.add("show");
+                    if (text) text.classList.add("show1");
+                } else {
+                    if (img) img.classList.remove("show");
+                    if (text) text.classList.remove("show1");
+                }
+            });
+        }, { threshold: 0.2 });
+
+        const scrollContainers = document.querySelectorAll(".scroll-container");
+        scrollContainers.forEach((container) => observer.observe(container));
+
+        return () => {
+            scrollContainers.forEach((container) => observer.unobserve(container));
+        };
     }, []);
 
     return (
@@ -60,7 +81,7 @@ const ContactUs = () => {
                     <h1>Contact Us</h1>
                 </div>
             </header>
-            
+
             <main className="scroll-container">
                 <div className="hidden1">
                     <h2>Get in Touch</h2>
@@ -69,7 +90,7 @@ const ContactUs = () => {
                     <p>Email: contact@dentalclinic.com</p>
                     <h3>Send us a message</h3>
                 </div>
-                
+
                 <form className="hidden" onSubmit={handleSubmit}>
                     <input 
                         type="text" 
@@ -96,7 +117,7 @@ const ContactUs = () => {
                     <button type="submit">Send</button>
                 </form>
             </main>
-            
+
             <Footer />
         </div>
     );
