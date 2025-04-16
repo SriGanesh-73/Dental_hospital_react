@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/forms.css';
+import { Box } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
-import { Link, useNavigate } from 'react-router-dom';
+import '../styles/forms.css';
 import '../styles/index.css';
 
 const Register = () => {
@@ -95,10 +96,7 @@ const Register = () => {
         if (isValid) {
             setIsLoading(true);
             try {
-                // Simulate API call delay
                 await new Promise(res => setTimeout(res, 1000));
-
-                // Clear form after successful registration
                 setFormData({
                     name: '',
                     email: '',
@@ -106,7 +104,6 @@ const Register = () => {
                     password: '',
                     confirmPassword: ''
                 });
-
                 alert('Registration successful!');
                 navigate('/login-form');
             } catch (error) {
@@ -117,7 +114,7 @@ const Register = () => {
         }
     };
 
-    // Enable this if you want to persist formData
+    // Persistence effects
     useEffect(() => {
         const savedData = JSON.parse(localStorage.getItem("registerFormData"));
         if (savedData) setFormData(savedData);
@@ -127,7 +124,7 @@ const Register = () => {
         localStorage.setItem("registerFormData", JSON.stringify(formData));
     }, [formData]);
     
-
+    // Scroll animation
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -156,14 +153,20 @@ const Register = () => {
                         Object.values(formData).every(val => val !== '');
 
     return (
-        <div className="main">
+        <Box component="div" className="main">
             <NavBar />
-            <div className="overlay"></div>
-            <div id="register-container" className="scroll-container">
-                <h1 className="hidden">Register</h1>
-                <form className="hidden1" id="registerForm" onSubmit={handleSubmit}>
-                    <label htmlFor="name">Full Name</label>
-                    <input 
+            <Box component="div" className="overlay"></Box>
+            <Box component="div" id="register-container" className="scroll-container">
+                <Box component="h1" className="hidden">Register</Box>
+                <Box 
+                    component="form" 
+                    className="hidden1" 
+                    id="registerForm" 
+                    onSubmit={handleSubmit}
+                >
+                    <Box component="label" htmlFor="name">Full Name</Box>
+                    <Box 
+                        component="input" 
                         type="text" 
                         id="name" 
                         name="name" 
@@ -172,10 +175,11 @@ const Register = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.name}</span>
+                    <Box component="span" className="error-msg">{errors.name}</Box>
 
-                    <label htmlFor="email">Email</label>
-                    <input 
+                    <Box component="label" htmlFor="email">Email</Box>
+                    <Box 
+                        component="input" 
                         type="email" 
                         id="email" 
                         name="email" 
@@ -184,10 +188,11 @@ const Register = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.email}</span>
+                    <Box component="span" className="error-msg">{errors.email}</Box>
 
-                    <label htmlFor="phone">Phone Number</label>
-                    <input 
+                    <Box component="label" htmlFor="phone">Phone Number</Box>
+                    <Box 
+                        component="input" 
                         type="tel" 
                         id="phone" 
                         name="phone" 
@@ -196,10 +201,11 @@ const Register = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.phone}</span>
+                    <Box component="span" className="error-msg">{errors.phone}</Box>
 
-                    <label htmlFor="password">Password</label>
-                    <input 
+                    <Box component="label" htmlFor="password">Password</Box>
+                    <Box 
+                        component="input" 
                         type="password" 
                         id="password" 
                         name="password" 
@@ -208,10 +214,11 @@ const Register = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.password}</span>
+                    <Box component="span" className="error-msg">{errors.password}</Box>
 
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input 
+                    <Box component="label" htmlFor="confirmPassword">Confirm Password</Box>
+                    <Box 
+                        component="input" 
                         type="password" 
                         id="confirmPassword" 
                         name="confirmPassword" 
@@ -220,19 +227,19 @@ const Register = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.confirmPassword}</span>
+                    <Box component="span" className="error-msg">{errors.confirmPassword}</Box>
 
-                    <button type="submit" disabled={!isFormValid || isLoading}>
+                    <Box component="button" type="submit" disabled={!isFormValid || isLoading}>
                         {isLoading ? 'Registering...' : 'Register'}
-                    </button>
+                    </Box>
 
-                    <div style={{ marginTop: '15px', color: 'white' }}>
+                    <Box component="div" style={{ marginTop: '15px', color: 'white' }}>
                         Already have an account? <Link to="/login-form" style={{ color: '#fff', textDecoration: 'underline' }}>Login here</Link>
-                    </div>
-                </form>
-            </div>  
+                    </Box>
+                </Box>
+            </Box>  
             <Footer />    
-        </div>
+        </Box>
     );
 };
 

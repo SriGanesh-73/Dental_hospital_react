@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import '../styles/faq.css'; // Import your CSS file for styling
-
+import { Box } from '@mui/material';
+import '../styles/faq.css';
 
 const FAQAccordion = ({ faqs }) => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -11,18 +11,24 @@ const FAQAccordion = ({ faqs }) => {
   };
 
   return (
-    <div id="faq-container" className="faq-container">
-      <h2>Frequently Asked Questions</h2>
-      <div className="faq-list">
+    <Box component="div" id="faq-container" className="faq-container">
+      <Box component="h2">Frequently Asked Questions</Box>
+      <Box component="div" className="faq-list">
         {faqs.map((faq, index) => (
-          <div
+          <Box
+            component="div"
             key={index}
             className={`faq-item ${activeIndex === index ? 'open' : ''}`}
           >
-            <div className="faq-question" onClick={() => toggleFaq(index)}>
+            <Box 
+              component="div" 
+              className="faq-question" 
+              onClick={() => toggleFaq(index)}
+            >
               {faq.question}
-              <span className="faq-arrow">
-                <svg
+              <Box component="span" className="faq-arrow">
+                <Box
+                  component="svg"
                   xmlns="http://www.w3.org/2000/svg"
                   height="20px"
                   viewBox="0 -960 960 960"
@@ -31,18 +37,18 @@ const FAQAccordion = ({ faqs }) => {
                   className={activeIndex === index ? 'rotated' : ''}
                 >
                   <path d="m288-96-68-68 316-316-316-316 68-68 384 384L288-96Z" />
-                </svg>
-              </span>
-            </div>
+                </Box>
+              </Box>
+            </Box>
             {activeIndex === index && (
-              <div className="faq-answer">
-                <p>{faq.answer}</p>
-              </div>
+              <Box component="div" className="faq-answer">
+                <Box component="p">{faq.answer}</Box>
+              </Box>
             )}
-          </div>
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

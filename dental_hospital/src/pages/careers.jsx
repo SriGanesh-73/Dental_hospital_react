@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar.jsx';  // Changed to correct components path
-import Footer from '../components/Footer.jsx';  // Changed to correct components path
-import '../styles/landing_pages.css';  // Changed to correct styles path
-import '../styles/index.css';  // Changed to correct global styles path
+import { Box } from '@mui/material';
+import NavBar from '../components/NavBar.jsx';
+import Footer from '../components/Footer.jsx';
+import '../styles/landing_pages.css';
+import '../styles/index.css';
 
 const Careers = () => {
     const [applicationData, setApplicationData] = useState({
@@ -21,61 +22,61 @@ const Careers = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
         console.log('Application submitted:', applicationData);
-        // You can add validation and submission logic
     };
+
     // Scroll animation effect
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const img = entry.target.querySelector(".hidden");
-            const text = entry.target.querySelector(".hidden1");
-            
-            if (entry.isIntersecting) {
-            if (img) img.classList.add("show");
-            if (text) text.classList.add("show1");
-            } else {
-            if (img) img.classList.remove("show");
-            if (text) text.classList.remove("show1");
-            }
-        });
+            entries.forEach((entry) => {
+                const img = entry.target.querySelector(".hidden");
+                const text = entry.target.querySelector(".hidden1");
+                
+                if (entry.isIntersecting) {
+                    if (img) img.classList.add("show");
+                    if (text) text.classList.add("show1");
+                } else {
+                    if (img) img.classList.remove("show");
+                    if (text) text.classList.remove("show1");
+                }
+            });
         }, { threshold: 0.2 });
         
-        // Observe the scroll containers
         const scrollContainers = document.querySelectorAll(".scroll-container");
         scrollContainers.forEach((container) => observer.observe(container));
         
         return () => {
-        scrollContainers.forEach((container) => observer.unobserve(container));
+            scrollContainers.forEach((container) => observer.unobserve(container));
         };
     }, []);
+
     return (
-        <div className="main">
+        <Box component="div" className="main">
             <NavBar />
-            <div className="overlay"></div>
-            <header className="scroll-container">
-                <div className="hidden1">
-                    <h1>Careers</h1>
-                </div>
-            </header>
+            <Box component="div" className="overlay"></Box>
+            <Box component="header" className="scroll-container">
+                <Box component="div" className="hidden1">
+                    <Box component="h1">Careers</Box>
+                </Box>
+            </Box>
             
-            <main className="scroll-container">
-                <div className="hidden1"> 
-                    <h2>Join Our Team</h2>
-                    <p>We are looking for talented professionals to join our dental team.</p>
-                    <h3>Current Openings</h3>
-                    <ul>
-                        <li>Dentist - Minimum 3 years experience</li>
-                        <li>Dental Assistant - Freshers welcome</li>
-                        <li>Receptionist - Excellent communication skills required</li>
-                    </ul>
-                </div>
+            <Box component="main" className="scroll-container">
+                <Box component="div" className="hidden1"> 
+                    <Box component="h2">Join Our Team</Box>
+                    <Box component="p">We are looking for talented professionals to join our dental team.</Box>
+                    <Box component="h3">Current Openings</Box>
+                    <Box component="ul">
+                        <Box component="li">Dentist - Minimum 3 years experience</Box>
+                        <Box component="li">Dental Assistant - Freshers welcome</Box>
+                        <Box component="li">Receptionist - Excellent communication skills required</Box>
+                    </Box>
+                </Box>
                 
-                <div className="hidden">
-                    <h3>Apply Now</h3>
-                    <form onSubmit={handleSubmit}>
-                        <input 
+                <Box component="div" className="hidden">
+                    <Box component="h3">Apply Now</Box>
+                    <Box component="form" onSubmit={handleSubmit}>
+                        <Box 
+                            component="input" 
                             type="text" 
                             name="name"
                             placeholder="Your Name" 
@@ -83,7 +84,8 @@ const Careers = () => {
                             onChange={handleChange}
                             required 
                         />
-                        <input 
+                        <Box 
+                            component="input" 
                             type="email" 
                             name="email"
                             placeholder="Your Email" 
@@ -91,20 +93,23 @@ const Careers = () => {
                             onChange={handleChange}
                             required 
                         />
-                        <input 
+                        <Box 
+                            component="input" 
                             type="file" 
                             name="resume"
                             accept=".pdf" 
                             onChange={handleChange}
                             required 
                         />
-                        <button type="submit">Submit Application</button>
-                    </form>
-                </div>
-            </main>
+                        <Box component="button" type="submit">
+                            Submit Application
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
             
             <Footer />
-        </div>
+        </Box>
     );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Box } from '@mui/material';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
 import { Link } from 'react-router-dom';
@@ -69,11 +70,7 @@ const LoginPage = () => {
 
         if (isValid) {
             alert('Login successful!');
-
-            // Clear localStorage
             localStorage.removeItem('loginForm');
-
-            // Reset form
             setFormData({
                 email: '',
                 password: ''
@@ -107,14 +104,20 @@ const LoginPage = () => {
     }, []);
 
     return (
-        <div className="main">
+        <Box component="div" className="main">
             <NavBar />
-            <div className="overlay"></div>
-            <div id="login-container" className="scroll-container">
-                <h1 className="hidden">Login</h1>
-                <form className="hidden1" id="loginForm" onSubmit={handleSubmit}>
-                    <label htmlFor="email">Email</label>
-                    <input 
+            <Box component="div" className="overlay"></Box>
+            <Box component="div" id="login-container" className="scroll-container">
+                <Box component="h1" className="hidden">Login</Box>
+                <Box 
+                    component="form" 
+                    className="hidden1" 
+                    id="loginForm" 
+                    onSubmit={handleSubmit}
+                >
+                    <Box component="label" htmlFor="email">Email</Box>
+                    <Box 
+                        component="input" 
                         type="email" 
                         id="email" 
                         name="email" 
@@ -123,10 +126,11 @@ const LoginPage = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.email}</span>
+                    <Box component="span" className="error-msg">{errors.email}</Box>
 
-                    <label htmlFor="password">Password</label>
-                    <input 
+                    <Box component="label" htmlFor="password">Password</Box>
+                    <Box 
+                        component="input" 
                         type="password" 
                         id="password" 
                         name="password" 
@@ -135,17 +139,17 @@ const LoginPage = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span className="error-msg">{errors.password}</span>
+                    <Box component="span" className="error-msg">{errors.password}</Box>
 
-                    <button type="submit">Login</button>
+                    <Box component="button" type="submit">Login</Box>
 
-                    <div style={{ marginTop: '15px', color: 'white' }}>
+                    <Box component="div" style={{ marginTop: '15px', color: 'white' }}>
                         Don't have an account? <Link to="/register-form" style={{ color: '#fff', textDecoration: 'underline' }}>Register here</Link>
-                    </div>
-                </form>
-            </div>  
+                    </Box>
+                </Box>
+            </Box>  
             <Footer />    
-        </div>
+        </Box>
     );
 };
 

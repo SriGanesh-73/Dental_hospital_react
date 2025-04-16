@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/forms.css';  // Adjusted path to styles
-import NavBar from '../components/NavBar.jsx';  // Correct component path
-import Footer from '../components/Footer.jsx';  // Correct component path
-import '../styles/index.css';  // Adjusted global CSS path
+import { Box } from '@mui/material';
+import NavBar from '../components/NavBar.jsx';
+import Footer from '../components/Footer.jsx';
+import '../styles/forms.css';
+import '../styles/index.css';
 
 const AppointmentBooking = () => {
     const [formData, setFormData] = useState({
@@ -90,7 +91,6 @@ const AppointmentBooking = () => {
             [name]: value
         }));
 
-        // Validate the changed field
         const error = validateInput(name, value);
         setErrors(prev => ({
             ...prev,
@@ -101,7 +101,6 @@ const AppointmentBooking = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // Validate all fields
         const newErrors = {
             name: validateInput('name', formData.name),
             email: validateInput('email', formData.email),
@@ -113,16 +112,11 @@ const AppointmentBooking = () => {
 
         setErrors(newErrors);
 
-        // Check if form is valid
         const isValid = Object.values(newErrors).every(error => error === '');
         
         if (isValid) {
             alert(`Appointment booked successfully! on ${formData.time}`);
-            
-            // Clear localStorage
             localStorage.removeItem('appointmentForm');
-
-            // Reset form
             setFormData({
                 name: '',
                 email: '',
@@ -161,14 +155,15 @@ const AppointmentBooking = () => {
     }, []);
 
     return (
-        <div className="main">
+        <Box component="div" className="main">
             <NavBar />
-            <div className="overlay"></div>
-            <div id="appointment-container" className="scroll-container">
-                <h1>Book an Appointment</h1>
-                <form id="appointmentForm" onSubmit={handleSubmit}>
-                    <label htmlFor="name">Full Name</label>
-                    <input 
+            <Box component="div" className="overlay"></Box>
+            <Box component="div" id="appointment-container" className="scroll-container">
+                <Box component="h1">Book an Appointment</Box>
+                <Box component="form" id="appointmentForm" onSubmit={handleSubmit}>
+                    <Box component="label" htmlFor="name">Full Name</Box>
+                    <Box 
+                        component="input" 
                         type="text" 
                         id="name" 
                         name="name" 
@@ -177,10 +172,11 @@ const AppointmentBooking = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span id="name_err" className="error-msg">{errors.name}</span>
+                    <Box component="span" id="name_err" className="error-msg">{errors.name}</Box>
             
-                    <label htmlFor="email">Email</label>
-                    <input 
+                    <Box component="label" htmlFor="email">Email</Box>
+                    <Box 
+                        component="input" 
                         type="email" 
                         id="email" 
                         name="email" 
@@ -189,10 +185,11 @@ const AppointmentBooking = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span id="email_err" className="error-msg">{errors.email}</span>
+                    <Box component="span" id="email_err" className="error-msg">{errors.email}</Box>
             
-                    <label htmlFor="phone">Phone Number</label>
-                    <input 
+                    <Box component="label" htmlFor="phone">Phone Number</Box>
+                    <Box 
+                        component="input" 
                         type="tel" 
                         id="phone" 
                         name="phone" 
@@ -201,10 +198,11 @@ const AppointmentBooking = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span id="phone_err" className="error-msg">{errors.phone}</span>
+                    <Box component="span" id="phone_err" className="error-msg">{errors.phone}</Box>
             
-                    <label htmlFor="date">Select Date</label>
-                    <input 
+                    <Box component="label" htmlFor="date">Select Date</Box>
+                    <Box 
+                        component="input" 
                         type="date" 
                         id="date" 
                         name="date" 
@@ -212,10 +210,11 @@ const AppointmentBooking = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span id="date_err" className="error-msg">{errors.date}</span>
+                    <Box component="span" id="date_err" className="error-msg">{errors.date}</Box>
             
-                    <label htmlFor="time">Select Time</label>
-                    <input 
+                    <Box component="label" htmlFor="time">Select Time</Box>
+                    <Box 
+                        component="input" 
                         type="time" 
                         id="time" 
                         name="time" 
@@ -223,42 +222,44 @@ const AppointmentBooking = () => {
                         onChange={handleChange}
                         required 
                     />
-                    <span id="time_err" className="error-msg">{errors.time}</span>
+                    <Box component="span" id="time_err" className="error-msg">{errors.time}</Box>
             
-                    <label htmlFor="treatment">Select Treatment</label>
-                    <select 
+                    <Box component="label" htmlFor="treatment">Select Treatment</Box>
+                    <Box 
+                        component="select" 
                         id="treatment" 
                         name="treatment" 
                         value={formData.treatment}
                         onChange={handleChange}
                         required
                     >
-                        <option value="" disabled>Select a treatment</option>
-                        <option value="teeth_whitening">Teeth Whitening</option>
-                        <option value="root_canal">Root Canal Therapy</option>
-                        <option value="braces_aligners">Braces and Aligners</option>
-                        <option value="extraction">Extraction</option>
-                        <option value="filling">Filling</option>
-                        <option value="denture_removal">Denture Removal</option>
-                        <option value="dental_implant">Dental Implant</option>
-                        <option value="caps_crowns">Caps and Crowns</option>
-                    </select>
-                    <span id="treatment_err" className="error-msg">{errors.treatment}</span>
+                        <Box component="option" value="" disabled>Select a treatment</Box>
+                        <Box component="option" value="teeth_whitening">Teeth Whitening</Box>
+                        <Box component="option" value="root_canal">Root Canal Therapy</Box>
+                        <Box component="option" value="braces_aligners">Braces and Aligners</Box>
+                        <Box component="option" value="extraction">Extraction</Box>
+                        <Box component="option" value="filling">Filling</Box>
+                        <Box component="option" value="denture_removal">Denture Removal</Box>
+                        <Box component="option" value="dental_implant">Dental Implant</Box>
+                        <Box component="option" value="caps_crowns">Caps and Crowns</Box>
+                    </Box>
+                    <Box component="span" id="treatment_err" className="error-msg">{errors.treatment}</Box>
             
-                    <label htmlFor="message">Additional Message</label>
-                    <textarea 
+                    <Box component="label" htmlFor="message">Additional Message</Box>
+                    <Box 
+                        component="textarea" 
                         id="message" 
                         name="message" 
                         placeholder="Enter any details..."
                         value={formData.message}
                         onChange={handleChange}
-                    ></textarea>
+                    />
             
-                    <button type="submit">Book Appointment</button>
-                </form>
-            </div>  
+                    <Box component="button" type="submit">Book Appointment</Box>
+                </Box>
+            </Box>  
             <Footer />    
-        </div>
+        </Box>
     );
 };
 

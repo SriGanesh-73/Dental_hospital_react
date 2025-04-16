@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Box } from '@mui/material';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
 import '../styles/landing_pages.css';
@@ -73,53 +74,66 @@ const ContactUs = () => {
     }, []);
 
     return (
-        <div className="main">
+        <Box component="div" className="main">
             <NavBar />
-            <div className="overlay"></div>
-            <header className="scroll-container">
-                <div className="hidden1">
-                    <h1>Contact Us</h1>
-                </div>
-            </header>
+            <Box component="div" className="overlay"></Box>
+            <Box component="header" className="scroll-container">
+                <Box component="div" className="hidden1">
+                    <Box component="h4">Contact Us</Box>
+                </Box>
+            </Box>
 
-            <main className="scroll-container">
-                <div className="hidden1">
-                    <h2>Get in Touch</h2>
-                    <p>Address: 123 Dental Street, City, State, Zip</p>
-                    <p>Phone: +1 234 567 890</p>
-                    <p>Email: contact@dentalclinic.com</p>
-                    <h3>Send us a message</h3>
-                </div>
+            <Box component="main" className="scroll-container">
+                <Box component="div" className="hidden1">
+                    <Box component="h5">Get in Touch</Box>
+                    <Box component="p">Address: 123 Dental Street, City, State, Zip</Box>
+                    <Box component="p">Phone: +1 234 567 890</Box>
+                    <Box component="p">Email: contact@dentalclinic.com</Box>
+                    <Box component="h6">Send us a message</Box>
+                </Box>
 
-                <form className="hidden" onSubmit={handleSubmit}>
-                    <input 
-                        type="text" 
+                <Box 
+                    component="form" 
+                    className="hidden" 
+                    onSubmit={handleSubmit}
+                >
+                    <Box 
+                        component="input"
+                        type="text"
                         name="name"
-                        placeholder="Your Name" 
+                        placeholder="Your Name"
                         value={formData.name}
                         onChange={handleChange}
-                        required 
+                        required
                     />
-                    <input 
-                        type="email" 
+                    <Box 
+                        component="input"
+                        type="email"
                         name="email"
-                        placeholder="Your Email" 
+                        placeholder="Your Email"
                         value={formData.email}
                         onChange={handleChange}
-                        required 
+                        required
                     />
-                    <textarea 
+                    <Box 
+                        component="textarea"
                         name="message"
                         placeholder="Your Message"
                         value={formData.message}
                         onChange={handleChange}
-                    ></textarea>
-                    <button type="submit">Send</button>
-                </form>
-            </main>
+                        rows="4"
+                    />
+                    <Box 
+                        component="button"
+                        type="submit"
+                    >
+                        Send
+                    </Box>
+                </Box>
+            </Box>
 
             <Footer />
-        </div>
+        </Box>
     );
 };
 

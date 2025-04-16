@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import '../styles/index.css';
@@ -133,52 +134,55 @@ const NavBar = () => {
   }, [menuState.isMenuActive, closeAllMenus]);
 
   return (
-    <div className="navbar">
-      <div id="icon">
-        <img src={logo} width="20px" height="20px" alt="DentaEase Logo" />
-        <h3><Link to="/">DentaEase</Link></h3>
-      </div>
+    <Box component="div" className="navbar">
+      <Box component="div" id="icon">
+        <Box component="img" src={logo} width="20px" height="20px" alt="DentaEase Logo" />
+        <Box component="h3"><Box component={Link} to="/">DentaEase</Box></Box>
+      </Box>
       
-      <div 
+      <Box 
+        component="div"
         id="container" 
         ref={menuContainerRef} 
         className={menuState.isMenuActive ? "active" : ""}
       >
-        <ul id="menu">
-          <li><Link to="/">Home</Link></li>
-          <li 
+        <Box component="ul" id="menu">
+          <Box component="li"><Box component={Link} to="/">Home</Box></Box>
+          <Box 
+            component="li"
             id="dropdown" 
             ref={dropdownRef} 
             className={menuState.isDropdownActive ? "active" : ""} 
             onClick={toggleDropdown}
           >
-            <Link to="#">Features</Link>
-            <ul id="dropdown-content">
+            <Box component={Link} to="#">Features</Box>
+            <Box component="ul" id="dropdown-content">
               {featureItems.map((item, index) => (
-                <li key={index}>
-                  <Link to={`#features${index + 1}`}>{item}</Link>
-                </li>
+                <Box component="li" key={index}>
+                  <Box component={Link} to={`#features${index + 1}`}>{item}</Box>
+                </Box>
               ))}
-            </ul>
-          </li>
-          <li><Link to="/careers">Careers</Link></li>
-          <li><Link to="/about-us">About Us</Link></li>
-          <li><Link to="/contact-us">Contact Us</Link></li>
-        </ul>
+            </Box>
+          </Box>
+          <Box component="li"><Box component={Link} to="/careers">Careers</Box></Box>
+          <Box component="li"><Box component={Link} to="/about-us">About Us</Box></Box>
+          <Box component="li"><Box component={Link} to="/contact-us">Contact Us</Box></Box>
+        </Box>
         
-        <div className="auth-buttons">
-          <Link to="/login-form"><button>LOGIN</button></Link>
-          <Link to="/register-form"><button>REGISTER</button></Link>
-        </div>
-      </div>
+        <Box component="div" className="auth-buttons">
+          <Box component={Link} to="/login-form"><Box component="button">LOGIN</Box></Box>
+          <Box component={Link} to="/register-form"><Box component="button">REGISTER</Box></Box>
+        </Box>
+      </Box>
       
-      <span 
+      <Box 
+        component="span"
         id="menu-btn1"
         ref={hamburgerRef}
         onClick={handleHamburgerClick}
       >
         ☰
-      </span>
+      </Box>
       
       <RightSideMenu
         isRightMenuOpen={menuState.isRightMenuOpen}
@@ -186,7 +190,7 @@ const NavBar = () => {
         toggleRightDropdown={toggleRightDropdown}
         featureItems={featureItems}
       />
-    </div>
+    </Box>
   );
 };
 
