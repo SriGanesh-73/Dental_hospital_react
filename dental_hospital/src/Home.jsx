@@ -22,6 +22,32 @@ import FAQAccordion from './components/FAQ.jsx';
 
 function Home() {
   const contentRef = useRef(null);
+  
+  // Feature items array for the cards
+  const featureItems = [
+    'Electronic Patient Records',
+    'Appointment and Schedules',
+    'SMS and Email Notifications',
+    'Accounts & Cash Management',
+    'Reporting System',
+    'Document Management',
+    'Administrator',
+    'Inventory Management',
+    'Lab Management'
+  ];
+  
+  // Feature descriptions - you can customize these
+  const featureDescriptions = [
+    'Manage patient records digitally for easy access and updates.',
+    'Schedule and manage appointments efficiently.',
+    'Send automated notifications to patients about appointments and follow-ups.',
+    'Handle billing and financial transactions with ease.',
+    'Generate comprehensive reports for better decision making.',
+    'Store and manage all dental documents securely.',
+    'Control user access and system settings.',
+    'Track dental supplies and equipment inventory.',
+    'Coordinate with labs for tests and procedures.'
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -107,8 +133,8 @@ function Home() {
             {[icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9].map((icon, idx) => (
               <Grid item xs={12} sm={6} md={4} className="grid-item" key={idx}>
                 <img src={icon} alt={`Icon ${idx + 1}`} />
-                <Typography variant="h6">Feature Title {idx + 1}</Typography>
-                <Typography variant="body2">Feature description goes here.</Typography>
+                <Typography variant="h6">{featureItems[idx]}</Typography>
+                <Typography variant="body2">{featureDescriptions[idx]}</Typography>
               </Grid>
             ))}
           </Grid>

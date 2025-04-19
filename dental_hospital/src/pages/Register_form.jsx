@@ -35,30 +35,15 @@ const Register = () => {
     const validateInput = (name, value) => {
         switch (name) {
             case 'name':
-                if (!namePattern.test(value.trim())) {
-                    return 'Enter a valid name (at least 3 letters)';
-                }
-                return '';
+                return namePattern.test(value.trim()) ? '' : 'Enter a valid name (at least 3 letters)';
             case 'email':
-                if (!emailPattern.test(value.trim())) {
-                    return 'Enter a valid email address';
-                }
-                return '';
+                return emailPattern.test(value.trim()) ? '' : 'Enter a valid email address';
             case 'phone':
-                if (!phonePattern.test(value.trim())) {
-                    return 'Enter a valid 10-digit phone number';
-                }
-                return '';
+                return phonePattern.test(value.trim()) ? '' : 'Enter a valid 10-digit phone number';
             case 'password':
-                if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                }
-                return '';
+                return value.length >= 6 ? '' : 'Password must be at least 6 characters';
             case 'confirmPassword':
-                if (value !== formData.password) {
-                    return 'Passwords do not match';
-                }
-                return '';
+                return value === formData.password ? '' : 'Passwords do not match';
             default:
                 return '';
         }
@@ -96,17 +81,37 @@ const Register = () => {
         if (isValid) {
             setIsLoading(true);
             try {
-                await new Promise(res => setTimeout(res, 1000));
-                setFormData({
-                    name: '',
-                    email: '',
-                    phone: '',
-                    password: '',
-                    confirmPassword: ''
+                const response = await fetch('http://localhost:5000/api/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        phone: formData.phone,
+                        password: formData.password
+                    })
                 });
-                alert('Registration successful!');
-                navigate('/login-form');
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Registration successful!');
+                    localStorage.removeItem("registerFormData");
+                    setFormData({
+                        name: '',
+                        email: '',
+                        phone: '',
+                        password: '',
+                        confirmPassword: ''
+                    });
+                    navigate('/login-form');
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
             } catch (error) {
+                console.error('Registration error:', error);
                 alert('Something went wrong!');
             } finally {
                 setIsLoading(false);
@@ -114,7 +119,7 @@ const Register = () => {
         }
     };
 
-    // Persistence effects
+    // Load from localStorage
     useEffect(() => {
         const savedData = JSON.parse(localStorage.getItem("registerFormData"));
         if (savedData) setFormData(savedData);
@@ -123,7 +128,7 @@ const Register = () => {
     useEffect(() => {
         localStorage.setItem("registerFormData", JSON.stringify(formData));
     }, [formData]);
-    
+
     // Scroll animation
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {

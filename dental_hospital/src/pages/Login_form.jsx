@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/forms.css';
 import '../styles/index.css';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -57,7 +59,7 @@ const LoginPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = {
@@ -69,12 +71,36 @@ const LoginPage = () => {
         const isValid = Object.values(newErrors).every(error => error === '');
 
         if (isValid) {
-            alert('Login successful!');
-            localStorage.removeItem('loginForm');
-            setFormData({
-                email: '',
-                password: ''
-            });
+            try {
+                const response = await fetch('http://localhost:5000/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Login successful!');
+
+                    // Save token/user if needed
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+
+                    localStorage.removeItem('loginForm');
+                    setFormData({ email: '', password: '' });
+
+                    // Navigate to dashboard or home
+                    navigate('/');
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Server error. Please try again later.');
+            }
         }
     };
 
