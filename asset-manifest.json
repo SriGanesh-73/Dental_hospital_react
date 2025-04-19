@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Dental_hospital_react/static/css/main.ed4ca0cb.css",
-    "main.js": "/Dental_hospital_react/static/js/main.89e95d3a.js",
+    "main.js": "/Dental_hospital_react/static/js/main.102a5fb2.js",
     "static/js/453.68156b11.chunk.js": "/Dental_hospital_react/static/js/453.68156b11.chunk.js",
     "static/media/doctor_1.jpg": "/Dental_hospital_react/static/media/doctor_1.956086521d24d342d7ad.jpg",
     "static/media/dental_filling.png": "/Dental_hospital_react/static/media/dental_filling.d6bc85c2e5f3ea679731.png",
@@ -27,11 +27,11 @@
     "static/media/icon8.png": "/Dental_hospital_react/static/media/icon8.ffa5b3b7a80ab0c10439.png",
     "index.html": "/Dental_hospital_react/index.html",
     "main.ed4ca0cb.css.map": "/Dental_hospital_react/static/css/main.ed4ca0cb.css.map",
-    "main.89e95d3a.js.map": "/Dental_hospital_react/static/js/main.89e95d3a.js.map",
+    "main.102a5fb2.js.map": "/Dental_hospital_react/static/js/main.102a5fb2.js.map",
     "453.68156b11.chunk.js.map": "/Dental_hospital_react/static/js/453.68156b11.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ed4ca0cb.css",
-    "static/js/main.89e95d3a.js"
+    "static/js/main.102a5fb2.js"
   ]
 }
