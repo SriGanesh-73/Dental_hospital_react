@@ -1,141 +1,258 @@
-/* Form Container */
+/* Form Containers */
 #appointment-container,
 #login-container,
 #register-container {
-    position: relative; /* Ensures it's inside the normal document flow */
-    margin: 120px auto; /* Adds space from the top */
-    background: #74ae8e;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin: 100px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(42, 127, 141, 0.15);
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     text-align: center;
+    border-top: 4px solid #f3a712;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Heading */
+#appointment-container:hover,
+#login-container:hover,
+#register-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(42, 127, 141, 0.2);
+}
+
+/* Form Headings */
 #appointment-container h1,
 #login-container h1,
 #register-container h1 {
-    color: white;
-    font-size: 24px;
-    margin-bottom: 20px;
+    color: #2a7f8d;
+    font-size: 28px;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#appointment-container h1::after,
+#login-container h1::after,
+#register-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #f3a712;
+}
+
+/* Form Elements */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Form Labels */
 form label {
     display: block;
     text-align: left;
-    font-weight: bold;
-    margin-top: 10px;
-    color: white;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #2a7f8d;
+    font-size: 15px;
 }
 
 /* Input Fields */
 form input, 
 form textarea,
-#treatment {
+form select {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 3px solid #7abd9b;
-    border-radius: 5px;
+    padding: 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     background-color: #f9f9f9;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
-#treatment{
-    width:400px;
+
+form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232a7f8d'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
 }
 
 form input:focus,
 form textarea:focus,
-#treatment:focus{
+form select:focus {
     outline: none;
-    box-shadow: 2px 2px 15px 4px #0ad82c;
+    border-color: #2a7f8d;
+    box-shadow: 0 0 0 3px rgba(42, 127, 141, 0.2);
+    background-color: white;
 }
 
 form input:hover,
 form textarea:hover,
-#treatment:hover{
-    box-shadow: 2px 2px 15px 4px #0ad82c; /* Increased blur for glow effect */
+form select:hover {
+    border-color: #9ccdd6;
 }
 
 /* Textarea */
 form textarea {
-    resize: none;
-    height: 80px;
+    resize: vertical;
+    min-height: 120px;
 }
 
 /* Submit Button */
 form button {
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    background-color: #7abd9b;
-    border: 1px solid #7abd9b;
+    padding: 15px;
+    margin-top: 10px;
+    background-color: #2a7f8d;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+form button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
 }
 
 form button:hover {
-    background-color: #fff;
-    color: #7abd9b;
+    background-color: #1e5f6b;
+    box-shadow: 0 5px 15px rgba(42, 127, 141, 0.4);
 }
 
+form button:hover::after {
+    left: 100%;
+}
+
+/* Error Messages */
 .error-msg {
-    color: red;
-    font-size: small;
-    display: inline-block;
-    margin-top: 0px;
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: 500;
 }
 
-/* Links between forms */
+/* Form Links */
 .form-link {
-    margin-top: 15px;
-    color: white;
+    margin-top: 20px;
+    color: #2a7f8d;
     text-align: center;
+    font-size: 14px;
 }
 
 .form-link a {
-    color: white;
+    color: #f3a712;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.form-link a:hover {
+    color: #d18e0f;
     text-decoration: underline;
 }
 
-/* Scroll animation effects */
+/* Floating Label Animation (Optional) */
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    color: #7f8c8d;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    background: white;
+    padding: 0 5px;
+    color: #2a7f8d;
+}
+
 .hidden {
     opacity: 0;
-    filter: blur(5px);
-    transform: translateX(-100%);
-    transition: all 1s;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .show {
     opacity: 1;
-    filter: blur(0);
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 .hidden1 {
     opacity: 0;
-    filter: blur(5px);
-    transform: translateX(100%);
-    transition: all 1s;
+    transform: translateX(50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
 .show1 {
     opacity: 1;
-    filter: blur(0);
     transform: translateX(0);
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     #appointment-container,
     #login-container,
     #register-container {
-        width: 80%;
-        padding: 20px;
+        margin: 60px auto;
+        padding: 30px;
+        width: 85%;
+    }
+    
+    #appointment-container h1,
+    #login-container h1,
+    #register-container h1 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    #appointment-container,
+    #login-container,
+    #register-container {
+        padding: 25px 20px;
+        width: 90%;
+    }
+    
+    form input,
+    form textarea,
+    form select {
+        padding: 12px;
+    }
+    
+    form button {
+        padding: 14px;
     }
 }

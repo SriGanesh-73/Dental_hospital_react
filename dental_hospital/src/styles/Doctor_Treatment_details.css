@@ -1,12 +1,21 @@
 /* General Styles */
 /* Header */
 #header{
-    background-color: #385a48;
+    background-color: #e4f0f1;
     text-align: center;
     padding: 20px;
     color: white;
     width:100%;
     margin-bottom:30px;
+}
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #f3a712, #2a7f8d);
 }
 .main {
     min-height: 100vh; /* Ensures the main container takes at least the full screen height */
@@ -17,41 +26,125 @@ h1, h2 {
 }
 
 /* Doctor Profiles */
-#doctor-grid{
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    margin-top:50px;
-    margin-bottom:50px;
-    gap:50px;
-    text-align:center;
-    padding:10px;
+/* Doctor Profiles Grid */
+#doctor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px; /* Slightly reduced gap */
+    padding: 0; /* Removed inner padding */
+    margin: 30px auto; /* Adjusted margin */
+    max-width: 1200px;
+    width: calc(100% - 20px); /* Accounts for parent padding */
 }
 
-.doctor-card,.treatment-card {
-    background: #74ae8e;
-    padding: 40px;
-    width:250px;
-    border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-    transition:all 0.3s ease-in-out;
-}
-.doctor-card:hover,.treatment-card:hover{
-    transform: scale(1.05);
-    box-shadow: 2px 2px 15px 4px #0ad82c !important; /* More glow */
-    background-color: #fff;
-    color: #0ad82c;
-}
-.doctor-card:hover img,.treatment-card:hover img{
-    border:1px solid #0ad82c;
+/* Treatment List */
+#treatment-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 25px; /* Slightly reduced gap */
+    padding: 0; /* Removed inner padding */
+    margin: 30px auto; /* Adjusted margin */
+    max-width: 1200px;
+    width: calc(100% - 20px); /* Accounts for parent padding */
 }
 
-.doctor-card img {
+
+.doctor-card, 
+.treatment-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(42, 127, 141, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e0f0f0;
+}
+.doctor-card:hover, 
+.treatment-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(243, 167, 18, 0.2);
+    border-color: #f3a712;
+}
+.doctor-card img, 
+.treatment-card img {
     width: 100%;
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid #e0f0f0;
 }
-.treatment-card img{
-    width:100%;
-    border-radius:8px;
+.doctor-card:hover img, 
+.treatment-card:hover img {
+    border-color: #f3a712;
+    transform: scale(1.03);
+}
+
+.card-content {
+    padding: 0 10px;
+}
+
+.card-content h3 {
+    color: #2a7f8d;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.card-content p {
+    color: #5a7d8a;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.price {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f3a712;
+    margin-top: 15px;
+    background-color: rgba(42, 127, 141, 0.1);
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.specialty {
+    display: inline-block;
+    background-color: #2a7f8d;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin: 5px 0;
+}
+
+/* Rating Stars */
+.rating {
+    color: #f3a712;
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+/* Book Button */
+.book-btn {
+    display: inline-block;
+    background-color: #2a7f8d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid #2a7f8d;
+}
+
+.book-btn:hover {
+    background-color: white;
+    color: #2a7f8d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(42, 127, 141, 0.2);
 }
 
 .price {
@@ -69,6 +162,56 @@ h1, h2 {
     padding: 20px;
     margin-top:50px;
 }
+.doctor-card:hover img, 
+.treatment-card:hover img {
+    border-color: #f3a712;
+    transform: scale(1.03);
+}
+
+.card-content {
+    padding: 0 10px;
+}
+
+.card-content h3 {
+    color: #2a7f8d;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.card-content p {
+    color: #5a7d8a;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.price {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f3a712;
+    margin-top: 15px;
+    background-color: rgba(42, 127, 141, 0.1);
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.specialty {
+    display: inline-block;
+    background-color: #2a7f8d;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin: 5px 0;
+}
+
+/* Rating Stars */
+.rating {
+    color: #f3a712;
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

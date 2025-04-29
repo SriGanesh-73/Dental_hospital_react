@@ -125,6 +125,11 @@ const AboutUs = () => {
                             <Box component="li">Dental Implants</Box>
                             <Box component="li">Braces & Aligners</Box>
                             <Box component="li">Root Canal Treatment</Box>
+                            <Box component="li">Dental Implants</Box>
+                            <Box component="li">Braces & Aligners</Box>
+                            <Box component="li">Root Canal Treatment</Box>
+                            <Box component="li">Dental Implants</Box>
+                            <Box component="li">Braces & Aligners</Box>
                         </Box>
                     </Box>
 

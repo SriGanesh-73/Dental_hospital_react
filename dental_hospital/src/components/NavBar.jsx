@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import '../styles/index.css';
 import RightSideMenu from '../pages/right_side_menu';
+import { FaTooth } from 'react-icons/fa';
 
 const featureItems = [
   'Electronic Patient Records',
@@ -136,7 +137,7 @@ const NavBar = () => {
   return (
     <Box component="div" className="navbar">
       <Box component="div" id="icon">
-        <Box component="img" src={logo} width="20px" height="20px" alt="DentaEase Logo" />
+        <FaTooth size={24} color="#f3a712" />
         <Box component="h3"><Box component={Link} to="/">DentaEase</Box></Box>
       </Box>
       
@@ -170,8 +171,8 @@ const NavBar = () => {
         </Box>
         
         <Box component="div" className="auth-buttons">
-          <Box component={Link} to="/login-form"><Box component="button">LOGIN</Box></Box>
-          <Box component={Link} to="/register-form"><Box component="button">REGISTER</Box></Box>
+          <Box component="button"><Box component={Link} to="/login-form">LOGIN</Box></Box>
+          <Box component="button"><Box component={Link} to="/register-form">REGISTER</Box></Box>
         </Box>
       </Box>
       
