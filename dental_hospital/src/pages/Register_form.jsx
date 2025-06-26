@@ -238,7 +238,7 @@ const Register = () => {
                         {isLoading ? 'Registering...' : 'Register'}
                     </Box>
 
-                    <Box component="div" style={{ marginTop: '15px', color: 'white' }}>
+                    <Box component="div" className="alreadyReg" style={{ marginTop: '15px', color: 'white' }}>
                         Already have an account? <Link to="/login-form" style={{ color: '#fff', textDecoration: 'underline' }}>Login here</Link>
                     </Box>
                 </Box>

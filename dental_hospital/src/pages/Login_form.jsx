@@ -169,7 +169,7 @@ const LoginPage = () => {
 
                     <Box component="button" type="submit">Login</Box>
 
-                    <Box component="div" style={{ marginTop: '15px', color: 'white' }}>
+                    <Box component="div" className="notReg" style={{ marginTop: '15px', color: 'white' }}>
                         Don't have an account? <Link to="/register-form" style={{ color: '#fff', textDecoration: 'underline' }}>Register here</Link>
                     </Box>
                 </Box>

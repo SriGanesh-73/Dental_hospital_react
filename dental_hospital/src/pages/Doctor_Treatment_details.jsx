@@ -65,37 +65,37 @@ function DoctorTreatment() {
           <Box component="div" id="doctor-grid" className="hidden">
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. A" />
-              <Box component="h3">Dr. A</Box>
+              <Box component="h3">Dr. Sri Ganesh Thiyagarajan</Box>
               <Box component="p">Specialist in Orthodontics</Box>
               <Box component="p">Available: Mon - Fri (10 AM - 5 PM)</Box>
             </Box>
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. B" />
-              <Box component="h3">Dr. B</Box>
+              <Box component="h3">Dr. Bargavan</Box>
               <Box component="p">Endodontics & Root Canal Specialist</Box>
               <Box component="p">Available: Tue - Sat (9 AM - 4 PM)</Box>
             </Box>
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. C" />
-              <Box component="h3">Dr. C</Box>
+              <Box component="h3">Dr. Ashok Kumar</Box>
               <Box component="p">Cosmetic Dentistry Expert</Box>
               <Box component="p">Available: Mon - Sat (11 AM - 6 PM)</Box>
             </Box>
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. D" />
-              <Box component="h3">Dr. D</Box>
+              <Box component="h3">Dr. AjayKrishna JP</Box>
               <Box component="p">Prosthodontics & Dental Implants Specialist</Box>
               <Box component="p">Available: Mon - Fri (9 AM - 3 PM)</Box>
             </Box>
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. E" />
-              <Box component="h3">Dr. E</Box>
+              <Box component="h3">Dr. Naresh Kumar</Box>
               <Box component="p">Periodontics & Gum Disease Specialist</Box>
               <Box component="p">Available: Wed - Sun (10 AM - 6 PM)</Box>
             </Box>
             <Box component="div" className="doctor-card">
               <Box component="img" src={doctorImage} alt="Dr. F" />
-              <Box component="h3">Dr. F</Box>
+              <Box component="h3">Dr. O Kavin</Box>
               <Box component="p">Pediatric Dentist (Children's Dentistry)</Box>
               <Box component="p">Available: Mon - Sat (8 AM - 4 PM)</Box>
             </Box>                   

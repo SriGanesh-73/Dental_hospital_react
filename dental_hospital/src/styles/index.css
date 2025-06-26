@@ -33,7 +33,7 @@ body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /* Navbar */
@@ -483,10 +483,12 @@ body.menu-open .overlay {
 
 #row1 #bt-1 a {
     color: white;
+    text-decoration: none;
 }
 
 #row1 #bt-2 a {
     color: #2a7f8d;
+    text-decoration: none;
 }
 
 #row1 #bt-2:hover {
