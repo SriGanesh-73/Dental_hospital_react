@@ -4,7 +4,8 @@ const {
   registerUser,
   loginUser,
   bookAppointment,
-  getAppointmentStatus
+  getAppointmentStatus,
+  cancelAppointment
 } = require('../Controllers/UserControllers');
 const authMiddleware = require('../Middleware/authMiddleware');
 const { check } = require('express-validator');
@@ -24,6 +25,6 @@ router.post('/bookappointment', authMiddleware, [
 ], bookAppointment);
 
 router.get('/appointments/:id',getAppointmentStatus);
-router.put('/')
+router.put('/cancel/appointments/:id',cancelAppointment);
 
 module.exports = router;

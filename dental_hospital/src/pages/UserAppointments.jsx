@@ -71,6 +71,7 @@ const UserAppointments = () => {
         setAppointments(appointments.map(appt => 
           appt._id === appointmentId ? { ...appt, status: 'cancelled' } : appt
         ));
+        setAppointments(data.filter(appt => appt.status !== 'cancelled'));
       }
     } catch (error) {
       console.error('Error cancelling appointment:', error);
