@@ -11,7 +11,9 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 const userRoutes = require('./Routers/UserRoute');
+const adminRoutes = require('./Routers/AdminRoute');
 app.use('/api/users', userRoutes);
+app.use('/api/admin',adminRoutes);
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNEWUrlParser: true,

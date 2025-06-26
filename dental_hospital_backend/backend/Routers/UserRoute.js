@@ -4,7 +4,7 @@ const {
   registerUser,
   loginUser,
   bookAppointment,
-  getUserAppointments
+  getAppointmentStatus
 } = require('../Controllers/UserControllers');
 const authMiddleware = require('../Middleware/authMiddleware');
 const { check } = require('express-validator');
@@ -14,7 +14,7 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 
 // Appointment routes (protected by authMiddleware)
-router.post('/appointments', authMiddleware, [
+router.post('/bookappointment', authMiddleware, [
   check('name', 'Name is required').not().isEmpty(),
   check('email', 'Please include a valid email').isEmail(),
   check('phone', 'Please provide a valid 10-digit phone number').matches(/^[6789]\d{9}$/),
@@ -23,6 +23,6 @@ router.post('/appointments', authMiddleware, [
   check('treatment', 'Please select a treatment').not().isEmpty()
 ], bookAppointment);
 
-router.get('/appointments', authMiddleware, getUserAppointments);
+router.get('/appointments/:id',getAppointmentStatus);
 
 module.exports = router;

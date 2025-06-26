@@ -1,17 +1,17 @@
-    // src/components/AdminDashboard.jsx
+// AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Box, 
-  Typography, 
-  Tabs, 
-  Tab, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
+import {
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Paper,
   CircularProgress,
   Button,
@@ -23,45 +23,35 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const StyledTabs = styled(Tabs)(({ theme }) => ({
+const StyledTabs = styled(Tabs)({
   '& .MuiTabs-indicator': {
     backgroundColor: '#f3a712',
   },
-}));
+});
 
-const StyledTab = styled(Tab)(({ theme }) => ({
+const StyledTab = styled(Tab)({
   '&.Mui-selected': {
     color: '#2a7f8d',
     fontWeight: 'bold',
   },
-}));
+});
 
-const StatusSelect = ({ appointmentId, currentStatus, onChange }) => {
-  return (
-    <FormControl size="small" variant="outlined">
-      <Select
-        value={currentStatus}
-        onChange={(e) => onChange(appointmentId, e.target.value)}
-        sx={{
-          minWidth: 120,
-          backgroundColor: 
-            currentStatus === 'confirmed' ? '#e8f5e9' : 
-            currentStatus === 'cancelled' ? '#ffebee' : '#fff8e1',
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#2a7f8d',
-          },
-        }}
-      >
-        <MenuItem value="pending">Pending</MenuItem>
-        <MenuItem value="confirmed">Confirmed</MenuItem>
-        <MenuItem value="cancelled">Cancelled</MenuItem>
-        <MenuItem value="completed">Completed</MenuItem>
-      </Select>
-    </FormControl>
-  );
-};
+const StatusSelect = ({ appointmentId, currentStatus, onChange }) => (
+  <FormControl size="small" variant="outlined">
+    <Select
+      value={currentStatus}
+      onChange={(e) => onChange(appointmentId, e.target.value)}
+      className={`status-select status-select-${currentStatus}`}
+    >
+      <MenuItem value="pending">Pending</MenuItem>
+      <MenuItem value="confirmed">Confirmed</MenuItem>
+      <MenuItem value="cancelled">Cancelled</MenuItem>
+      <MenuItem value="completed">Completed</MenuItem>
+    </Select>
+  </FormControl>
+);
 
-const AdminDashboard = () => {
+export const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [users, setUsers] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -72,110 +62,84 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        
-        // Fetch users
-        const usersResponse = await fetch('http://localhost:3000/api/admin/users', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const usersRes = await fetch('http://localhost:3000/api/admin/allusers', {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
-        const usersData = await usersResponse.json();
+        const usersData = await usersRes.json();
         setUsers(usersData);
 
-        // Fetch appointments
-        const appointmentsResponse = await fetch('/api/admin/appointments', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const apptRes = await fetch('http://localhost:3000/api/admin/appointments', {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
-        const appointmentsData = await appointmentsResponse.json();
-        setAppointments(appointmentsData);
-
+        const apptData = await apptRes.json();
+        setAppointments(apptData);
         setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      } catch (err) {
+        console.error(err);
         navigate('/login');
       }
     };
-
     fetchData();
   }, [navigate]);
 
   const handleStatusChange = async (appointmentId, newStatus) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/admin/appointments/${appointmentId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ status: newStatus })
-      });
-
-      if (response.ok) {
-        setAppointments(appointments.map(appt => 
-          appt._id === appointmentId ? { ...appt, status: newStatus } : appt
-        ));
-      }
-    } catch (error) {
-      console.error('Error updating appointment:', error);
-    }
+    const token = localStorage.getItem('token');
+    await fetch(`http://localhost:3000/api/admin/appointments/${appointmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ status: newStatus })
+    });
+    setAppointments(prev => prev.map(appt =>
+      appt._id === appointmentId ? { ...appt, status: newStatus } : appt
+    ));
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-        <CircularProgress sx={{ color: '#2a7f8d' }} />
-      </Box>
-    );
-  }
+  if (loading) return <Box className="loading-spinner"><CircularProgress /></Box>;
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ color: '#2a7f8d', mb: 3, fontWeight: 'bold' }}>
-        Admin Dashboard
-      </Typography>
-      
-      <Card sx={{ mb: 3 }}>
+    <Box className="admin-dashboard-container">
+      <Typography className="admin-header">Admin Dashboard</Typography>
+
+      <Card className="admin-card">
         <CardContent>
-          <StyledTabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
-            <StyledTab label="Appointments" />
-            <StyledTab label="Users" />
+          <StyledTabs className="admin-tabs" value={activeTab} onChange={(e, v) => setActiveTab(v)}>
+            <StyledTab className="admin-tab" label="Appointments" />
+            <StyledTab className="admin-tab" label="Users" />
           </StyledTabs>
         </CardContent>
       </Card>
 
       {activeTab === 0 && (
-        <Card>
+        <Card className="admin-card">
           <CardContent>
-            <Typography variant="h5" sx={{ color: '#2a7f8d', mb: 2 }}>
-              Appointment Requests
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead sx={{ backgroundColor: '#d8f0f3' }}>
+            <Typography className="section-header">Appointment Requests</Typography>
+            <TableContainer component={Paper} className="admin-table-container">
+              <Table className="admin-table">
+                <TableHead className="table-header">
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Patient</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Email</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Time</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Treatment</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
+                    <TableCell className="table-header-cell">Patient</TableCell>
+                    <TableCell className="table-header-cell">Email</TableCell>
+                    <TableCell className="table-header-cell">Date</TableCell>
+                    <TableCell className="table-header-cell">Time</TableCell>
+                    <TableCell className="table-header-cell">Treatment</TableCell>
+                    <TableCell className="table-header-cell">Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {appointments.map((appointment) => (
-                    <TableRow key={appointment._id}>
-                      <TableCell>{appointment.name}</TableCell>
-                      <TableCell>{appointment.email}</TableCell>
-                      <TableCell>{new Date(appointment.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{appointment.time}</TableCell>
-                      <TableCell>{appointment.treatment}</TableCell>
+                  {appointments.map((appt) => (
+                    <TableRow key={appt._id} className="table-row">
+                      <TableCell>{appt.name}</TableCell>
+                      <TableCell>{appt.email}</TableCell>
+                      <TableCell>{new Date(appt.date).toLocaleDateString()}</TableCell>
+                      <TableCell>{appt.time}</TableCell>
+                      <TableCell>{appt.treatment}</TableCell>
                       <TableCell>
                         <StatusSelect
-                          appointmentId={appointment._id}
-                          currentStatus={appointment.status}
+                          appointmentId={appt._id}
+                          currentStatus={appt.status}
                           onChange={handleStatusChange}
                         />
                       </TableCell>
@@ -189,42 +153,27 @@ const AdminDashboard = () => {
       )}
 
       {activeTab === 1 && (
-        <Card>
+        <Card className="admin-card">
           <CardContent>
-            <Typography variant="h5" sx={{ color: '#2a7f8d', mb: 2 }}>
-              User Management
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead sx={{ backgroundColor: '#d8f0f3' }}>
+            <Typography className="section-header">User Management</Typography>
+            <TableContainer component={Paper} className="admin-table-container">
+              <Table className="admin-table">
+                <TableHead className="table-header">
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Email</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Phone</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+                    <TableCell className="table-header-cell">Name</TableCell>
+                    <TableCell className="table-header-cell">Email</TableCell>
+                    <TableCell className="table-header-cell">Phone</TableCell>
+                    <TableCell className="table-header-cell">Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {users.map((user) => (
-                    <TableRow key={user._id}>
+                    <TableRow key={user._id} className="table-row">
                       <TableCell>{user.name}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.phone}</TableCell>
                       <TableCell>
-                        <Button 
-                          variant="outlined" 
-                          size="small"
-                          sx={{ 
-                            color: '#2a7f8d',
-                            borderColor: '#2a7f8d',
-                            '&:hover': {
-                              backgroundColor: '#f0f8fa',
-                              borderColor: '#f3a712'
-                            }
-                          }}
-                        >
-                          Edit
-                        </Button>
+                        <Button className="edit-button">Edit</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -237,5 +186,6 @@ const AdminDashboard = () => {
     </Box>
   );
 };
+
 
 export default AdminDashboard;

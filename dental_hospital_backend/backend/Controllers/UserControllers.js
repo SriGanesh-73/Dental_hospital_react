@@ -235,10 +235,49 @@ const getUserAppointments = async (req, res) => {
     });
   }
 };
+const getAllAppointments = async (req, res) => {
+  const appointments = await Appointment.find();
+  res.json(appointments);
+};
+
+const updateAppointmentStatus = async (req, res) => {
+  const { status } = req.body;
+  const appointment = await Appointment.findByIdAndUpdate(
+    req.params.id,
+    { status },
+    { new: true }
+  );
+  res.json(appointment);
+};
+
+const getAllUsers = async (req, res) => {
+  const users = await User.find({ role:'user' });
+  res.json(users);
+};
+
+const getAppointmentStatus = async (req, res) => {
+  const { user_id } = req.params.id;
+  const app_status = await Appointment.find({ userId: user_id });
+  if(!app_status) {
+    return res.status(404).json({ 
+      success:false,
+      message:"Appointment with User Id not found!"
+    });
+  }
+  res.status(200).json({
+    success:true,
+    message:"Appointment with User Id found",
+    content:app_status
+  });
+};
 
 module.exports = {
   registerUser,
   loginUser,
   bookAppointment,
-  getUserAppointments
+  getUserAppointments,
+  getAllAppointments,
+  updateAppointmentStatus,
+  getAllUsers,
+  getAppointmentStatus
 };
