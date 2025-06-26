@@ -35,15 +35,12 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Hash password with 12 rounds
-    const hashedPassword = await bcrypt.hash(password, 12);
-
     // Create new user
     const newUser = new User({
       name,
       email: email.toLowerCase(),
       phone,
-      password: hashedPassword
+      password
     });
 
     await newUser.save();
@@ -98,19 +95,20 @@ const loginUser = async (req, res) => {
         message: 'Invalid credentials'
       });
     }
-
     // Debugging logs (remove in production)
     console.log(`User found: ${user._id}`);
     console.log(`Stored hash: ${user.password.substring(0, 15)}...`);
     console.log(`Input password length: ${password.length}`);
+    console.log(`Raw Input password: ${password}`);
+    console.log("Hashed password stored:", user.password);
 
     // Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password.trim());
     console.log(`Password match: ${isMatch}`);
 
     if (!isMatch) {
       // Additional debug - compare with known test password
-      const testMatch = await bcrypt.compare('testpassword', user.password);
+      const testMatch = await bcrypt.compare('test-password', user.password);
       console.log(`Test password match: ${testMatch}`);
       
       return res.status(401).json({

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Box, Avatar, IconButton, Menu, MenuItem } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.webp';
 import '../styles/index.css';
 import RightSideMenu from '../pages/right_side_menu';
@@ -18,13 +18,16 @@ const featureItems = [
   'Lab Management'
 ];
 
-const NavBar = () => {
+const NavBar = ({ isLoggedIn, user }) => {
+  const navigate = useNavigate();
   const [menuState, setMenuState] = useState({
     isMenuActive: false,
     isDropdownActive: false,
     isRightMenuOpen: false,
     isRightDropdownActive: false
   });
+
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const menuContainerRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -58,7 +61,6 @@ const NavBar = () => {
       isRightMenuOpen: false
     }));
     toggleOverlay(newState);
-    
     if (hamburgerRef.current) {
       hamburgerRef.current.textContent = newState ? "✖" : "☰";
     }
@@ -71,15 +73,12 @@ const NavBar = () => {
       isRightMenuOpen: willOpen,
       isMenuActive: false
     }));
-    
     if (willOpen) {
       document.body.classList.add("menu-open");
     } else {
       document.body.classList.remove("menu-open");
     }
-    
     toggleOverlay(willOpen);
-    
     if (hamburgerRef.current) {
       hamburgerRef.current.textContent = willOpen ? "✖" : "☰";
     }
@@ -103,22 +102,21 @@ const NavBar = () => {
     setMenuState(prev => ({ ...prev, isRightDropdownActive: !prev.isRightDropdownActive }));
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        menuContainerRef.current && 
-        !menuContainerRef.current.contains(event.target) &&
-        hamburgerRef.current &&
-        !hamburgerRef.current.contains(event.target)
-      ) {
-        closeAllMenus();
-      }
-      
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setMenuState(prev => ({ ...prev, isDropdownActive: false }));
-      }
-    };
+  const handleClickOutside = (event) => {
+    if (
+      menuContainerRef.current && 
+      !menuContainerRef.current.contains(event.target) &&
+      hamburgerRef.current &&
+      !hamburgerRef.current.contains(event.target)
+    ) {
+      closeAllMenus();
+    }
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setMenuState(prev => ({ ...prev, isDropdownActive: false }));
+    }
+  };
 
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [closeAllMenus]);
@@ -129,10 +127,21 @@ const NavBar = () => {
         closeAllMenus();
       }
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [menuState.isMenuActive, closeAllMenus]);
+
+  const handleAvatarClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuClose = () => setAnchorEl(null);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    handleMenuClose();
+    navigate('/login-form');
+  };
 
   return (
     <Box component="div" className="navbar">
@@ -140,20 +149,20 @@ const NavBar = () => {
         <FaTooth size={24} color="#f3a712" />
         <Box component="h3"><Box component={Link} to="/">DentaEase</Box></Box>
       </Box>
-      
-      <Box 
+
+      <Box
         component="div"
-        id="container" 
-        ref={menuContainerRef} 
+        id="container"
+        ref={menuContainerRef}
         className={menuState.isMenuActive ? "active" : ""}
       >
         <Box component="ul" id="menu">
           <Box component="li"><Box component={Link} to="/">Home</Box></Box>
-          <Box 
+          <Box
             component="li"
-            id="dropdown" 
-            ref={dropdownRef} 
-            className={menuState.isDropdownActive ? "active" : ""} 
+            id="dropdown"
+            ref={dropdownRef}
+            className={menuState.isDropdownActive ? "active" : ""}
             onClick={toggleDropdown}
           >
             <Box component={Link} to="#">Features</Box>
@@ -169,14 +178,34 @@ const NavBar = () => {
           <Box component="li"><Box component={Link} to="/about-us">About Us</Box></Box>
           <Box component="li"><Box component={Link} to="/contact-us">Contact Us</Box></Box>
         </Box>
-        
+
         <Box component="div" className="auth-buttons">
-          <Box component="button"><Box component={Link} to="/login-form">LOGIN</Box></Box>
-          <Box component="button"><Box component={Link} to="/register-form">REGISTER</Box></Box>
+          {!isLoggedIn ? (
+            <>
+              <Box component="button"><Box component={Link} to="/login-form">LOGIN</Box></Box>
+              <Box component="button"><Box component={Link} to="/register-form">REGISTER</Box></Box>
+            </>
+          ) : (
+            <>
+              <IconButton onClick={handleAvatarClick}>
+                <Avatar sx={{ bgcolor: '#2a7f8d' }}>
+                  {user?.name?.charAt(0).toUpperCase() || 'U'}
+                </Avatar>
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem disabled>{user?.name}</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
+          )}
         </Box>
       </Box>
-      
-      <Box 
+
+      <Box
         component="span"
         id="menu-btn1"
         ref={hamburgerRef}
@@ -184,7 +213,7 @@ const NavBar = () => {
       >
         ☰
       </Box>
-      
+
       <RightSideMenu
         isRightMenuOpen={menuState.isRightMenuOpen}
         isRightDropdownActive={menuState.isRightDropdownActive}

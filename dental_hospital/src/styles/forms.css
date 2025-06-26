@@ -237,6 +237,34 @@ form button:hover::after {
     color: #d18e0f !important;
     text-decoration: underline;
 }
+.admin-user-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.admin-user-toggle button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid #2a7f8d;
+    background-color: transparent;
+    color: #2a7f8d;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.admin-user-toggle button:hover {
+    background-color: #2a7f8d;
+    color: white;
+}
+
+.admin-user-toggle .MuiButton-contained {
+    background-color: #2a7f8d !important;
+    color: white !important;
+    border-color: #2a7f8d !important;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {

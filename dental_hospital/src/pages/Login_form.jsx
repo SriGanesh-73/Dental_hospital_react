@@ -8,6 +8,7 @@ import '../styles/index.css';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [isAdmin,setIsAdmin] = useState(false);
 
     const [formData, setFormData] = useState({
         email: '',

@@ -57,28 +57,33 @@ const appointmentSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please provide your name'],
+    required: true,
+    minlength: 3,
+    maxlength: 50,
     trim: true,
-    minlength: [3, 'Name must be at least 3 characters'],
-    maxlength: [50, 'Name cannot exceed 50 characters']
   },
   email: {
     type: String,
-    required: [true, 'Please provide your email'],
+    required: true,
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   phone: {
     type: String,
-    required: [true, 'Please provide your phone number'],
-    match: [/^[6789]\d{9}$/, 'Please provide a valid Indian phone number']
+    required: true,
+    match: [/^[6789]\d{9}$/, 'Please provide a valid Indian phone number'],
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
-    minlength: [6, 'Password must be at least 6 characters'],
-    select: false
+    required: true,
+    minlength: 6,
+    select: false,
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
   }
 }, {
   timestamps: true
