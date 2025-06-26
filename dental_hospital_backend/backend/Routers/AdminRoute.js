@@ -5,6 +5,7 @@ const {
     getAllUsers,
     updateAppointmentStatus    
 } = require('../Controllers/UserControllers');
+const authMiddleware = require('../Middleware/authMiddleware');
 const authenticate = require('../Middleware/authenticate');
 const isAdmin = require('../Middleware/isAdmin');
 

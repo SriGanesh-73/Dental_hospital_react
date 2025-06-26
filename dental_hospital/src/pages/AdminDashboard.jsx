@@ -63,13 +63,13 @@ export const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const usersRes = await fetch('http://localhost:3000/api/admin/allusers', {
+        const usersRes = await fetch('http://localhost:5000/api/admin/allusers', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const usersData = await usersRes.json();
         setUsers(usersData);
 
-        const apptRes = await fetch('http://localhost:3000/api/admin/appointments', {
+        const apptRes = await fetch('http://localhost:5000/api/admin/appointments', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const apptData = await apptRes.json();
@@ -85,7 +85,7 @@ export const AdminDashboard = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     const token = localStorage.getItem('token');
-    await fetch(`http://localhost:3000/api/admin/appointments/${appointmentId}`, {
+    await fetch(`http://localhost:5000/api/admin/appointments/${appointmentId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

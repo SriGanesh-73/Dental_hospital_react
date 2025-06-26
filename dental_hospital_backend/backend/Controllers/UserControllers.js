@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, phone, password } = req.body;
+  const { name, email, phone, password,role } = req.body;
 
   try {
     // Check for existing user (case-insensitive)
@@ -40,7 +40,8 @@ const registerUser = async (req, res) => {
       name,
       email: email.toLowerCase(),
       phone,
-      password
+      password,
+      role
     });
 
     await newUser.save();

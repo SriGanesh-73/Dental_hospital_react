@@ -37,7 +37,7 @@ const UserAppointments = () => {
       try {
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
-        const response = await fetch(`http://localhost:3000/api/users/appointments/${user?._id}`, {
+        const response = await fetch(`http://localhost:5000/api/users/appointments/${user?._id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -58,7 +58,7 @@ const UserAppointments = () => {
     try {
       const token = localStorage.getItem('token');
       const appointment = JSON.parse(localStorage.getItem('appointmentForm'));
-      const response = await fetch(`http://localhost:3000/api/users/appointments/${appointment?._id}`, {
+      const response = await fetch(`http://localhost:5000/api/users/cancel/appointments/${appointment?._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const UserAppointments = () => {
         setAppointments(appointments.map(appt => 
           appt._id === appointmentId ? { ...appt, status: 'cancelled' } : appt
         ));
-        setAppointments(data.filter(appt => appt.status !== 'cancelled'));
+        setAppointments(appointments.filter(appt => appt.status !== 'cancelled'));
       }
     } catch (error) {
       console.error('Error cancelling appointment:', error);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,7 +8,9 @@ import '../styles/index.css';
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const [isAdmin,setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const isLoggedIn = !!localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     const [formData, setFormData] = useState({
         email: '',
@@ -20,7 +22,6 @@ const LoginPage = () => {
         password: ''
     });
 
-    // Load data from localStorage on component mount
     useEffect(() => {
         const savedData = localStorage.getItem('loginForm');
         if (savedData) {
@@ -28,12 +29,10 @@ const LoginPage = () => {
         }
     }, []);
 
-    // Save data to localStorage when formData changes
     useEffect(() => {
         localStorage.setItem('loginForm', JSON.stringify(formData));
     }, [formData]);
 
-    // Validation patterns
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const validateInput = (name, value) => {
@@ -84,16 +83,11 @@ const LoginPage = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Login successful!');
-
-                    // Save token/user if needed
+                    alert(`${isAdmin ? 'Admin' : 'User'} Login successful!`);
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
-
                     localStorage.removeItem('loginForm');
                     setFormData({ email: '', password: '' });
-
-                    // Navigate to dashboard or home
                     navigate('/');
                 } else {
                     alert(data.message || 'Login failed');
@@ -105,7 +99,6 @@ const LoginPage = () => {
         }
     };
 
-    // Scroll animation effect
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -132,39 +125,43 @@ const LoginPage = () => {
 
     return (
         <Box component="div" className="main">
-            <NavBar />
+            <NavBar isLoggedIn={isLoggedIn} user={user} />
             <Box component="div" className="overlay"></Box>
             <Box component="div" id="login-container" className="scroll-container">
-                <Box component="h1" className="hidden">Login</Box>
-                <Box 
-                    component="form" 
-                    className="hidden1" 
-                    id="loginForm" 
-                    onSubmit={handleSubmit}
-                >
+                <Box component="div" className="admin-user-toggle">
+                    <Button variant={!isAdmin ? "contained" : "outlined"} onClick={() => setIsAdmin(false)}>
+                        User Login
+                    </Button>
+                    <Button variant={isAdmin ? "contained" : "outlined"} onClick={() => setIsAdmin(true)}>
+                        Admin Login
+                    </Button>
+                </Box>
+
+                <Box component="h1" className="hidden">{isAdmin ? "Admin Login" : "User Login"}</Box>
+                <Box component="form" className="hidden1" id="loginForm" onSubmit={handleSubmit}>
                     <Box component="label" htmlFor="email">Email</Box>
-                    <Box 
-                        component="input" 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="Enter your email" 
+                    <Box
+                        component="input"
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
                         value={formData.email}
                         onChange={handleChange}
-                        required 
+                        required
                     />
                     <Box component="span" className="error-msg">{errors.email}</Box>
 
                     <Box component="label" htmlFor="password">Password</Box>
-                    <Box 
-                        component="input" 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Enter your password" 
+                    <Box
+                        component="input"
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
                         value={formData.password}
                         onChange={handleChange}
-                        required 
+                        required
                     />
                     <Box component="span" className="error-msg">{errors.password}</Box>
 
@@ -174,8 +171,8 @@ const LoginPage = () => {
                         Don't have an account? <Link to="/register-form" style={{ color: '#fff', textDecoration: 'underline' }}>Register here</Link>
                     </Box>
                 </Box>
-            </Box>  
-            <Footer />    
+            </Box>
+            <Footer />
         </Box>
     );
 };

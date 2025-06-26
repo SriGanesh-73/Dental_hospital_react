@@ -37,7 +37,7 @@ const AppointmentBooking = () => {
             alert('You must logged in before booking appointment!');
             navigate('/login');
         }
-    }, []);
+    }, [navigate]);
 
     // Save form data to localStorage whenever it changes
     useEffect(() => {
@@ -104,7 +104,7 @@ const AppointmentBooking = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         const newErrors = {
@@ -121,8 +121,18 @@ const AppointmentBooking = () => {
         const isValid = Object.values(newErrors).every(error => error === '');
         
         if (isValid) {
-            alert(`Appointment booked successfully! on ${formData.time}`);
-            localStorage.removeItem('appointmentForm');
+            const response = await fetch('http://localhost:5000/api/users/bookappointment',{
+                method:'POST',
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+            if(response.ok){
+                const app_details = await response.json();
+                alert(`Appointment booked successfully! on ${formData.time}`);
+                localStorage.setItem('appointmentForm',JSON.stringify(app_details.appointment));
+            }
             setFormData({
                 name: '',
                 email: '',
