@@ -10,6 +10,9 @@ import AppointmentBooking from './pages/Appointment_Booking_form.jsx';
 import DoctorTreatment from './pages/Doctor_Treatment_details.jsx';
 import LoginPage from './pages/Login_form.jsx';
 import RegisterPage from './pages/Register_form.jsx';
+import UserDashboard from './pages/UserDashboard.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
+import UserAppointments from './pages/UserAppointments.jsx';
 
 // Create Overlay Context
 const OverlayContext = React.createContext();
@@ -49,6 +52,9 @@ const AllRouters = () => {
           <Route path="/doctor-treatment" element={<DoctorTreatment />} />
           <Route path="/login-form" element={<LoginPage />} />
           <Route path="/register-form" element={<RegisterPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/user" element={<UserDashboard />} />
+          <Route path="/user2" element={<UserAppointments />} />
           {/* Add a catch-all route for 404 pages */}
           <Route path="*" element={<Home />} />
         </Routes>

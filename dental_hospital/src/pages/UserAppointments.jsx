@@ -13,6 +13,7 @@ import {
   Paper
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import '../styles/UserAppointments.css';
 
 const StatusChip = styled(Chip)(({ status }) => ({
   backgroundColor:
@@ -35,7 +36,8 @@ const UserAppointments = () => {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('/api/appointments', {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await fetch(`http://localhost:3000/api/users/appointments/${user?._id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -55,7 +57,8 @@ const UserAppointments = () => {
   const handleCancel = async (appointmentId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/appointments/${appointmentId}`, {
+      const appointment = JSON.parse(localStorage.getItem('appointmentForm'));
+      const response = await fetch(`http://localhost:3000/api/users/appointments/${appointment?._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -128,6 +131,7 @@ const UserAppointments = () => {
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 1 }}>
                     <strong>Date:</strong> {new Date(appointment.date).toLocaleDateString()}
+        
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 1 }}>
                     <strong>Time:</strong> {appointment.time}

@@ -22,6 +22,7 @@ import {
   CardContent
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import '../styles/AdminDashboard.css'
 
 const StyledTabs = styled(Tabs)({
   '& .MuiTabs-indicator': {

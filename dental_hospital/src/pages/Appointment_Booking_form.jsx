@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
@@ -24,12 +25,17 @@ const AppointmentBooking = () => {
         time: '',
         treatment: ''
     });
-
+    const navigate = useNavigate();
     // Load form data from localStorage
     useEffect(() => {
         const savedForm = localStorage.getItem('appointmentForm');
+        const savedUser = localStorage.getItem('user');
         if (savedForm) {
             setFormData(JSON.parse(savedForm));
+        }
+        if(!savedUser){
+            alert('You must logged in before booking appointment!');
+            navigate('/login');
         }
     }, []);
 

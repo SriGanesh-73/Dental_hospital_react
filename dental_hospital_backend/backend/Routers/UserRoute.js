@@ -24,5 +24,6 @@ router.post('/bookappointment', authMiddleware, [
 ], bookAppointment);
 
 router.get('/appointments/:id',getAppointmentStatus);
+router.put('/')
 
 module.exports = router;

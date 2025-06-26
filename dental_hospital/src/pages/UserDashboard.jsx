@@ -14,6 +14,7 @@ import {
   Paper,
   CircularProgress
 } from '@mui/material';
+import '../styles/UserDashboard.css';
 
 const UserDashboard = () => {
   const [appointments, setAppointments] = useState([]);
@@ -23,7 +24,8 @@ const UserDashboard = () => {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3000/api/users/appointments/me`, {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const response = await fetch(`http://localhost:3000/api/users/appointments/${user?._id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

@@ -271,6 +271,30 @@ const getAppointmentStatus = async (req, res) => {
   });
 };
 
+const cancelAppointment = async (req, res) => {
+  try {
+    const { app_id } = req.params.id;
+    const appointment = await Appointment.findByIdAndUpdate({ _id:app_id },{ status:'cancelled'},{new:true});
+    if(!appointment){
+      return res.status(404).json({
+        success:false,
+        message:"Appointment not found try booking a new appointment"
+      });
+    }
+    res.status(200).json({
+      success:true,
+      message:"Appointment was cancelled successfully"
+    });
+  }
+  catch (error){
+    console.error("Error cancelling the appointment:",error);
+    res.status(500).json({
+      success:false,
+      message:"Internal Server Error"
+    });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -279,5 +303,6 @@ module.exports = {
   getAllAppointments,
   updateAppointmentStatus,
   getAllUsers,
-  getAppointmentStatus
+  getAppointmentStatus,
+  cancelAppointment
 };
