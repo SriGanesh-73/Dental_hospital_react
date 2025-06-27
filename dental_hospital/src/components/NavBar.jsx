@@ -5,6 +5,7 @@ import logo from '../assets/logo.webp';
 import '../styles/index.css';
 import RightSideMenu from '../pages/right_side_menu';
 import { FaTooth } from 'react-icons/fa';
+import { useAuth } from '../context/Authcontext';
 
 const featureItems = [
   'Electronic Patient Records',
@@ -18,7 +19,8 @@ const featureItems = [
   'Lab Management'
 ];
 
-const NavBar = ({ isLoggedIn, user }) => {
+const NavBar = () => {
+  const { isLoggedIn, user, setIsLoggedIn, setUser } = useAuth();
   const navigate = useNavigate();
   const [menuState, setMenuState] = useState({
     isMenuActive: false,
@@ -139,6 +141,8 @@ const NavBar = ({ isLoggedIn, user }) => {
 
   const handleLogout = () => {
     localStorage.clear();
+    setIsLoggedIn(false);
+    setUser(null);
     handleMenuClose();
     navigate('/login-form');
   };
@@ -199,6 +203,9 @@ const NavBar = ({ isLoggedIn, user }) => {
               >
                 <MenuItem disabled>{user?.name}</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                {user?.role === 'user' ?<MenuItem component={Link} to='/user2'>Manage Appointments</MenuItem>:
+                  <MenuItem component={Link} to='/admin'>Manage Appointments</MenuItem>
+                }
               </Menu>
             </>
           )}

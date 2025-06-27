@@ -72,7 +72,7 @@ const registerUser = async (req, res) => {
 
 // User login - Debugged Version
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, isAdmin } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({
@@ -83,21 +83,21 @@ const loginUser = async (req, res) => {
 
   try {
     console.log(`Login attempt for: ${email}`);
-
+    const role = isAdmin?'admin':'user';
     // Case-insensitive search with email trimming
     const user = await User.findOne({
-      email: { $regex: new RegExp(`^${email.trim()}$`, 'i') }
+      email: { $regex: new RegExp(`^${email.trim()}$`, 'i') },role:role
     }).select('+password');
 
     if (!user) {
-      console.log(`User not found: ${email}`);
+      console.log(`${role} not found: ${email}`);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
       });
     }
     // Debugging logs (remove in production)
-    console.log(`User found: ${user._id}`);
+    console.log(`${role} found: ${user._id}`);
     console.log(`Stored hash: ${user.password.substring(0, 15)}...`);
     console.log(`Input password length: ${password.length}`);
     console.log(`Raw Input password: ${password}`);

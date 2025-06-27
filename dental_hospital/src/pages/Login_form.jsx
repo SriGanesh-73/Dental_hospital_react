@@ -5,12 +5,12 @@ import Footer from '../components/Footer.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/forms.css';
 import '../styles/index.css';
+import { useAuth } from '../context/Authcontext.jsx';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
-    const isLoggedIn = !!localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const { setIsLoggedIn, setUser } = useAuth();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -77,24 +77,30 @@ const LoginPage = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({ email:formData.email,password:formData.password,isAdmin })
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
                     alert(`${isAdmin ? 'Admin' : 'User'} Login successful!`);
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                    const token = data.token;
+                    const user = JSON.stringify(data.user);
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', user);
+                    setIsLoggedIn(true);
+                    setUser(user);
                     localStorage.removeItem('loginForm');
                     setFormData({ email: '', password: '' });
                     navigate('/');
                 } else {
                     alert(data.message || 'Login failed');
+                    setFormData({ email:'',password:'' });
                 }
             } catch (error) {
                 console.error('Login error:', error);
                 alert('Server error. Please try again later.');
+                setFormData({ email:'',password:'' });
             }
         }
     };
@@ -125,7 +131,7 @@ const LoginPage = () => {
 
     return (
         <Box component="div" className="main">
-            <NavBar isLoggedIn={isLoggedIn} user={user} />
+            <NavBar />
             <Box component="div" className="overlay"></Box>
             <Box component="div" id="login-container" className="scroll-container">
                 <Box component="div" className="admin-user-toggle">

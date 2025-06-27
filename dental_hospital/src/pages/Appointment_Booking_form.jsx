@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar.jsx';
 import Footer from '../components/Footer.jsx';
 import '../styles/forms.css';
 import '../styles/index.css';
+import { useAuth } from '../context/Authcontext.jsx';
 
 const AppointmentBooking = () => {
     const [formData, setFormData] = useState({
@@ -25,19 +26,19 @@ const AppointmentBooking = () => {
         time: '',
         treatment: ''
     });
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
     // Load form data from localStorage
     useEffect(() => {
         const savedForm = localStorage.getItem('appointmentForm');
-        const savedUser = localStorage.getItem('user');
         if (savedForm) {
             setFormData(JSON.parse(savedForm));
         }
-        if(!savedUser){
+        if(!isLoggedIn){
             alert('You must logged in before booking appointment!');
             navigate('/login');
         }
-    }, [navigate]);
+    }, [navigate,isLoggedIn]);
 
     // Save form data to localStorage whenever it changes
     useEffect(() => {

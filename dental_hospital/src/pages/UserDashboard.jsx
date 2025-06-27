@@ -15,10 +15,13 @@ import {
   CircularProgress
 } from '@mui/material';
 import '../styles/UserDashboard.css';
+import NavBar from '../components/NavBar';
 
 const UserDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isLoggedIn = !!localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   useEffect(() => {
     const fetchAppointments = async () => {
