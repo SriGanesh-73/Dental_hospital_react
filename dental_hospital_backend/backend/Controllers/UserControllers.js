@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
+
 // Utility function to remove sensitive fields
 const sanitizeUser = (user) => {
   const userObj = user.toObject ? user.toObject() : user;
@@ -147,8 +148,46 @@ const loginUser = async (req, res) => {
   }
 };
 
+const slotAvailability = async (req, res) => {
+  try {
+    const { date } = req.query;
+    console.log("Received date:", date);
+  
+    const jsDate = new Date(date);
+    if (isNaN(jsDate)) {
+      return res.status(400).json({ success: false, message: 'Invalid date format' });
+    }
+    const bookedSlots = await Appointment.find({
+      date: new Date(date),
+      status: { $in: ['pending', 'confirmed'] }
+    }).select('time');
+
+    if (bookedSlots.length > 0) {
+      return res.status(200).json({
+        success: true,
+        message: 'Already booked slots',
+        bookedSlots
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: 'No slots booked yet',
+        bookedSlots: []
+      });
+    }
+  }
+  catch (error){
+    console.error("Error checking the slot availability:",error);
+    res.status(500).json({
+      success:false,
+      message:'Internal Server Error'
+    });
+  }
+};
+
 const bookAppointment = async (req, res) => {
   const errors = validationResult(req);
+  const userId = req.user._id;
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -157,25 +196,11 @@ const bookAppointment = async (req, res) => {
     const { name, email, phone, date, time, treatment, message } = req.body;
 
     // Check if the user exists
-    const user = await User.findById(email);
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User with email not found'
-      });
-    }
-
-    // Check for existing appointment at the same time
-    const existingAppointment = await Appointment.findOne({
-      date: new Date(date),
-      time,
-      status: { $in: ['pending', 'confirmed'] }
-    });
-
-    if (existingAppointment) {
-      return res.status(409).json({
-        success: false,
-        message: 'This time slot is already booked'
       });
     }
 
@@ -187,7 +212,8 @@ const bookAppointment = async (req, res) => {
       date: new Date(date),
       time,
       treatment,
-      message
+      message,
+      userId
     });
 
     await newAppointment.save();
@@ -211,20 +237,20 @@ const bookAppointment = async (req, res) => {
 // Get user appointments
 const getUserAppointments = async (req, res) => {
   try {
-    const { email } = req.user; // Get email from authenticated user
-    if (!email) {
+    const user_id  = req.params.user_id; // Get _id from authenticated user
+    if (!user_id) {
       return res.status(400).json({
         success: false,
-        message: 'Email not found in user data'
+        message: 'User not found in user data'
       });
     }
-
-    const appointments = await Appointment.find({ email })
+    console.log("Searching for appointments linked to the user with id :",user_id);
+    const appointments = await Appointment.find({ userId:user_id,status: { $ne:'cancelled'} })
       .sort({ date: 1, time: 1 });
-
+    console.log("Appointment Details:",appointments);
     return res.status(200).json({
       success: true,
-      appointments
+      appointments:appointments
     });
 
   } catch (error) {
@@ -237,8 +263,29 @@ const getUserAppointments = async (req, res) => {
   }
 };
 const getAllAppointments = async (req, res) => {
-  const appointments = await Appointment.find();
-  res.json(appointments);
+  try{
+    console.log("Searching for all available appointments...");
+    const appointments = await Appointment.find({ status: { $ne:'cancelled' }}).sort({ date:1,time:1 });
+    if(!appointments){
+      return res.status(404).json({
+        success: false,
+        message: "Currently no appointments available!"
+      });
+    }
+    console.log("Appointments:",appointments.at(0)||"No appointments available","...");
+    res.status(200).json({
+      success:true,
+      message:"Appointments found!",
+      appointments:appointments||[]
+    });
+  }
+  catch (error){
+    console.error('Get Appointmets Error', error);
+    res.status(500).json({
+      success:false,
+      message:"Internal Server Error"
+    });
+  }
 };
 
 const updateAppointmentStatus = async (req, res) => {
@@ -257,24 +304,24 @@ const getAllUsers = async (req, res) => {
 };
 
 const getAppointmentStatus = async (req, res) => {
-  const { user_id } = req.params.id;
-  const app_status = await Appointment.find({ userId: user_id });
+  const { app_id } = req.params.app_id;
+  const app_status = await Appointment.find({ _id: app_id });
   if(!app_status) {
     return res.status(404).json({ 
       success:false,
-      message:"Appointment with User Id not found!"
+      message:"Appointment with Id not found!"
     });
   }
   res.status(200).json({
     success:true,
-    message:"Appointment with User Id found",
+    message:"Appointment with Id found",
     content:app_status
   });
 };
 
 const cancelAppointment = async (req, res) => {
   try {
-    const { app_id } = req.params.id;
+    const app_id  = req.params.id;
     const appointment = await Appointment.findByIdAndUpdate({ _id:app_id },{ status:'cancelled'},{new:true});
     if(!appointment){
       return res.status(404).json({
@@ -294,7 +341,7 @@ const cancelAppointment = async (req, res) => {
       message:"Internal Server Error"
     });
   }
-}
+};
 
 module.exports = {
   registerUser,
@@ -305,5 +352,6 @@ module.exports = {
   updateAppointmentStatus,
   getAllUsers,
   getAppointmentStatus,
-  cancelAppointment
+  cancelAppointment,
+  slotAvailability
 };

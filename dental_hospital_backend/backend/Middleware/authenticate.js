@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../Models/UserModels.js');
+const { User } = require('../Models/UserModels.js');
 
 const authenticate = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -10,6 +10,7 @@ const authenticate = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded ID:",decoded.id);
     req.user = await User.findById(decoded.id);
     next();
   } catch (err) {

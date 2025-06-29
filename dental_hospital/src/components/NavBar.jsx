@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Box, Avatar, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, Avatar, IconButton, Menu, MenuItem,Skeleton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.webp';
 import '../styles/index.css';
 import RightSideMenu from '../pages/right_side_menu';
 import { FaTooth } from 'react-icons/fa';
@@ -20,7 +19,7 @@ const featureItems = [
 ];
 
 const NavBar = () => {
-  const { isLoggedIn, user, setIsLoggedIn, setUser } = useAuth();
+  const { isLoggedIn,user, setIsLoggedIn, setUser,loading } = useAuth();
   const navigate = useNavigate();
   const [menuState, setMenuState] = useState({
     isMenuActive: false,
@@ -28,7 +27,6 @@ const NavBar = () => {
     isRightMenuOpen: false,
     isRightDropdownActive: false
   });
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const menuContainerRef = useRef(null);
@@ -104,7 +102,7 @@ const NavBar = () => {
     setMenuState(prev => ({ ...prev, isRightDropdownActive: !prev.isRightDropdownActive }));
   }, []);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     if (
       menuContainerRef.current && 
       !menuContainerRef.current.contains(event.target) &&
@@ -116,12 +114,12 @@ const NavBar = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setMenuState(prev => ({ ...prev, isDropdownActive: false }));
     }
-  };
+  },[closeAllMenus]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [closeAllMenus]);
+  }, [handleClickOutside]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -192,9 +190,13 @@ const NavBar = () => {
           ) : (
             <>
               <IconButton onClick={handleAvatarClick}>
-                <Avatar sx={{ bgcolor: '#2a7f8d' }}>
-                  {user?.name?.charAt(0).toUpperCase() || 'U'}
-                </Avatar>
+                {loading ? (
+                  <Skeleton variant="circular" width={40} height={40} />
+                ) : (
+                  <Avatar sx={{ bgcolor: '#2a7f8d' }}>
+                    {user?.name?.charAt(0).toUpperCase()}
+                  </Avatar>
+                )}
               </IconButton>
               <Menu
                 anchorEl={anchorEl}
@@ -203,7 +205,7 @@ const NavBar = () => {
               >
                 <MenuItem disabled>{user?.name}</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                {user?.role === 'user' ?<MenuItem component={Link} to='/user2'>Manage Appointments</MenuItem>:
+                {user?.role === 'user' ?<MenuItem component={Link} to='/user2dashboard'>Manage Appointments</MenuItem>:
                   <MenuItem component={Link} to='/admin'>Manage Appointments</MenuItem>
                 }
               </Menu>

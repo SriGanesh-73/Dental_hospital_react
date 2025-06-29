@@ -93,6 +93,7 @@ const LoginPage = () => {
                     localStorage.removeItem('loginForm');
                     setFormData({ email: '', password: '' });
                     navigate('/');
+                    window.location.reload();
                 } else {
                     alert(data.message || 'Login failed');
                     setFormData({ email:'',password:'' });

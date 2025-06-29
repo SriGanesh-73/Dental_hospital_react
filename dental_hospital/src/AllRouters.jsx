@@ -53,8 +53,8 @@ const AllRouters = () => {
           <Route path="/login-form" element={<LoginPage />} />
           <Route path="/register-form" element={<RegisterPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/user" element={<UserDashboard />} />
-          <Route path="/user2" element={<UserAppointments />} />
+          <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/user2dashboard" element={<UserAppointments />} />
           {/* Add a catch-all route for 404 pages */}
           <Route path="*" element={<Home />} />
         </Routes>

@@ -4,12 +4,14 @@ const {
   registerUser,
   loginUser,
   bookAppointment,
+  getUserAppointments,
   getAppointmentStatus,
-  cancelAppointment
+  cancelAppointment,
+  slotAvailability
 } = require('../Controllers/UserControllers');
 const authMiddleware = require('../Middleware/authMiddleware');
 const { check } = require('express-validator');
-
+const authenticate = require('../Middleware/authenticate');
 // Auth routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -23,8 +25,9 @@ router.post('/bookappointment', authMiddleware, [
   check('time', 'Please select a time').not().isEmpty(),
   check('treatment', 'Please select a treatment').not().isEmpty()
 ], bookAppointment);
-
-router.get('/appointments/:id',getAppointmentStatus);
-router.put('/cancel/appointments/:id',cancelAppointment);
+router.get('/appointments/availability/slots',slotAvailability);
+router.get('/appointments/:user_id',getUserAppointments);
+router.get('/appointments/:app_id',getAppointmentStatus);
+router.put('/cancel/appointments/:id',authenticate, cancelAppointment);
 
 module.exports = router;

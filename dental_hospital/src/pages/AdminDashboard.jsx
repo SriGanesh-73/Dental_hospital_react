@@ -22,7 +22,8 @@ import {
   CardContent
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import '../styles/AdminDashboard.css'
+import '../styles/AdminDashboard.css';
+import NavBar from '../components/NavBar.jsx';
 
 const StyledTabs = styled(Tabs)({
   '& .MuiTabs-indicator': {
@@ -59,29 +60,34 @@ export const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const usersRes = await fetch('http://localhost:5000/api/admin/allusers', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const usersData = await usersRes.json();
-        setUsers(usersData);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          console.log("Token:",token);
+          const usersRes = await fetch('http://localhost:5000/api/admin/allusers', {
+            headers: { 
+              'Authorization':`Bearer ${token}` 
+            }
+          });
+          const usersData = await usersRes.json();
+          setUsers(usersData);
 
-        const apptRes = await fetch('http://localhost:5000/api/admin/appointments', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const apptData = await apptRes.json();
-        setAppointments(apptData);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        navigate('/login');
-      }
-    };
-    fetchData();
-  }, [navigate]);
+          const apptRes = await fetch('http://localhost:5000/api/admin/appointments', {
+            headers: { 
+              'Authorization':`Bearer ${token}` 
+            }
+          });
+          const apptData = await apptRes.json();
+          setAppointments(apptData.appointments);
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+          navigate('/login');
+        }
+      };
+      fetchData();
+    }, [navigate]);
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     const token = localStorage.getItem('token');
@@ -101,89 +107,108 @@ export const AdminDashboard = () => {
   if (loading) return <Box className="loading-spinner"><CircularProgress /></Box>;
 
   return (
-    <Box className="admin-dashboard-container">
-      <Typography className="admin-header">Admin Dashboard</Typography>
+    <Box component='div' className="main">
+      <NavBar />
+      <Box className="admin-dashboard-container">
+        <Typography className="admin-header">Admin Dashboard</Typography>
 
-      <Card className="admin-card">
-        <CardContent>
-          <StyledTabs className="admin-tabs" value={activeTab} onChange={(e, v) => setActiveTab(v)}>
-            <StyledTab className="admin-tab" label="Appointments" />
-            <StyledTab className="admin-tab" label="Users" />
-          </StyledTabs>
-        </CardContent>
-      </Card>
-
-      {activeTab === 0 && (
         <Card className="admin-card">
           <CardContent>
-            <Typography className="section-header">Appointment Requests</Typography>
-            <TableContainer component={Paper} className="admin-table-container">
-              <Table className="admin-table">
-                <TableHead className="table-header">
-                  <TableRow>
-                    <TableCell className="table-header-cell">Patient</TableCell>
-                    <TableCell className="table-header-cell">Email</TableCell>
-                    <TableCell className="table-header-cell">Date</TableCell>
-                    <TableCell className="table-header-cell">Time</TableCell>
-                    <TableCell className="table-header-cell">Treatment</TableCell>
-                    <TableCell className="table-header-cell">Status</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {appointments.map((appt) => (
-                    <TableRow key={appt._id} className="table-row">
-                      <TableCell>{appt.name}</TableCell>
-                      <TableCell>{appt.email}</TableCell>
-                      <TableCell>{new Date(appt.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{appt.time}</TableCell>
-                      <TableCell>{appt.treatment}</TableCell>
-                      <TableCell>
-                        <StatusSelect
-                          appointmentId={appt._id}
-                          currentStatus={appt.status}
-                          onChange={handleStatusChange}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <StyledTabs className="admin-tabs" value={activeTab} onChange={(e, v) => setActiveTab(v)}>
+              <StyledTab className="admin-tab" label="Appointments" />
+              <StyledTab className="admin-tab" label="Users" />
+            </StyledTabs>
           </CardContent>
         </Card>
-      )}
 
-      {activeTab === 1 && (
-        <Card className="admin-card">
-          <CardContent>
-            <Typography className="section-header">User Management</Typography>
-            <TableContainer component={Paper} className="admin-table-container">
-              <Table className="admin-table">
-                <TableHead className="table-header">
-                  <TableRow>
-                    <TableCell className="table-header-cell">Name</TableCell>
-                    <TableCell className="table-header-cell">Email</TableCell>
-                    <TableCell className="table-header-cell">Phone</TableCell>
-                    <TableCell className="table-header-cell">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users.map((user) => (
-                    <TableRow key={user._id} className="table-row">
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.phone}</TableCell>
-                      <TableCell>
-                        <Button className="edit-button">Edit</Button>
-                      </TableCell>
+        {activeTab === 0 && (
+          <Card className="admin-card">
+            <CardContent>
+              <Typography className="section-header">Appointment Requests</Typography>
+              <TableContainer component={Paper} className="admin-table-container">
+                <Table className="admin-table">
+                  <TableHead className="table-header">
+                    <TableRow>
+                      <TableCell className="table-header-cell">Patient</TableCell>
+                      <TableCell className="table-header-cell">Email</TableCell>
+                      <TableCell className="table-header-cell">Date</TableCell>
+                      <TableCell className="table-header-cell">Time</TableCell>
+                      <TableCell className="table-header-cell">Treatment</TableCell>
+                      <TableCell className="table-header-cell">Status</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
-      )}
+                  </TableHead>
+                  <TableBody>
+                    {Array.isArray(appointments) && appointments.length > 0 ? (
+                      appointments.map((appt) => (
+                        <TableRow key={appt._id} className="table-row">
+                          <TableCell>{appt.name}</TableCell>
+                          <TableCell>{appt.email}</TableCell>
+                          <TableCell>{new Date(appt.date).toLocaleDateString()}</TableCell>
+                          <TableCell>{appt.time}</TableCell>
+                          <TableCell>{appt.treatment}</TableCell>
+                          <TableCell>
+                            <StatusSelect
+                              appointmentId={appt._id}
+                              currentStatus={appt.status}
+                              onChange={handleStatusChange}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={6} align="center">
+                          <Typography component="div">No appointments available at the moment</Typography>
+                        </TableCell>
+                      </TableRow>
+                    )}
+
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === 1 && (
+          <Card className="admin-card">
+            <CardContent>
+              <Typography className="section-header">User Management</Typography>
+              <TableContainer component={Paper} className="admin-table-container">
+                <Table className="admin-table">
+                  <TableHead className="table-header">
+                    <TableRow>
+                      <TableCell className="table-header-cell">Name</TableCell>
+                      <TableCell className="table-header-cell">Email</TableCell>
+                      <TableCell className="table-header-cell">Phone</TableCell>
+                      <TableCell className="table-header-cell">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Array.isArray(users) && users.length > 0 ? (
+                      users.map((user) => (
+                        <TableRow key={user._id} className="table-row">
+                          <TableCell>{user.name}</TableCell>
+                          <TableCell>{user.email}</TableCell>
+                          <TableCell>{user.phone}</TableCell>
+                          <TableCell><Button className="edit-button">Edit</Button></TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={4} align="center">
+                          <Typography component="div">Users not yet registered</Typography>
+                        </TableCell>
+                      </TableRow>
+                    )}
+
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        )}
+      </Box>
     </Box>
   );
 };
