@@ -65,6 +65,33 @@
     color: #2a7f8d;
     font-weight: 700;
   }
+  .working-hours-container {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(42, 127, 141, 0.15);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .working-hours-stack {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .working-hours-input .MuiInputBase-root {
+    border-radius: 8px;
+  }
+
+  .working-hours-input .MuiOutlinedInput-notchedOutline {
+    border-color: #2a7f8d !important;
+    border-width: 2px;
+  }
+
+  .working-hours-input .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #f3a712 !important;
+  }
+
   
   .section-header {
     color: #2a7f8d;

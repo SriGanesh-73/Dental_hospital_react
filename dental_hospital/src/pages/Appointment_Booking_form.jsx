@@ -76,10 +76,10 @@ const AppointmentBooking = () => {
     endTime.setHours(endHour, endMinute, 0, 0);
 
     while(current<=endTime) {
-        const hours = current.getHours().toString().padStart(2,'0');
-        const minutes = current.getMinutes().toString().padStart(2,'0');
-        slots.push(`${hours}:${minutes}`);
-        current.setMinutes(current.getMinutes() + timeInterval);
+      const hours = current.getHours().toString().padStart(2,'0');
+      const minutes = current.getMinutes().toString().padStart(2,'0');
+      slots.push(`${hours}:${minutes}`);
+      current.setMinutes(current.getMinutes() + timeInterval);
     }
     return slots;
   };
@@ -87,10 +87,11 @@ const AppointmentBooking = () => {
   useEffect(() => {
     const fetchAndGenerateSlots = async () => {
         if (!formData.date || !formData.treatment) return;
-
+        const workingHours = await fetch('http://localhost:5000/api/users/settings/time');
+        const data = await workingHours.json();
         const booked = await handleSlotAvailability(formData.treatment);
         const duration = treatmentDurations[formData.treatment] || 30;
-        const allSlots = generateTimeSlots("09:00", "19:00", duration);
+        const allSlots = generateTimeSlots(data.startTime, data.endTime, duration);
 
         setTimeSlots(allSlots);
         setBookedSlots(booked || []);

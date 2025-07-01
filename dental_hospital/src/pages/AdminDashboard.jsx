@@ -19,7 +19,9 @@ import {
   MenuItem,
   FormControl,
   Card,
-  CardContent
+  CardContent,
+  TextField,
+  Stack
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import '../styles/AdminDashboard.css';
@@ -58,36 +60,41 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const navigate = useNavigate();
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          console.log("Token:",token);
-          const usersRes = await fetch('http://localhost:5000/api/admin/allusers', {
-            headers: { 
-              'Authorization':`Bearer ${token}` 
-            }
-          });
-          const usersData = await usersRes.json();
-          setUsers(usersData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const usersRes = await fetch('http://localhost:5000/api/admin/allusers', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const usersData = await usersRes.json();
+        setUsers(usersData);
 
-          const apptRes = await fetch('http://localhost:5000/api/admin/appointments', {
-            headers: { 
-              'Authorization':`Bearer ${token}` 
-            }
-          });
-          const apptData = await apptRes.json();
-          setAppointments(apptData.appointments);
-          setLoading(false);
-        } catch (err) {
-          console.error(err);
-          navigate('/login');
-        }
-      };
-      fetchData();
-    }, [navigate]);
+        const apptRes = await fetch('http://localhost:5000/api/admin/appointments', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const apptData = await apptRes.json();
+        setAppointments(apptData.appointments);
+
+        const timeRes = await fetch('http://localhost:5000/api/admin/settings/time',{
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const timeData = await timeRes.json();
+        setStartTime(timeData.startTime || '');
+        setEndTime(timeData.endTime || '');
+
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        navigate('/login');
+      }
+    };
+    fetchData();
+  }, [navigate]);
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     const token = localStorage.getItem('token');
@@ -103,6 +110,32 @@ export const AdminDashboard = () => {
       appt._id === appointmentId ? { ...appt, status: newStatus } : appt
     ));
   };
+
+  const handleSaveWorkingHours = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch('http://localhost:5000/api/admin/settings/updatetime', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ startTime: String(startTime), endTime: String(endTime) })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        alert(`Working Hours Updated: ${data.startTime} to ${data.endTime}`);
+      } else {
+        const err = await res.json();
+        alert(`Error: ${err.message || 'Failed to update working hours'}`);
+      }
+    } catch (err) {
+      console.error("Save Error:", err);
+      alert('Failed to update working hours due to network/server error');
+    }
+  };
+
 
   if (loading) return <Box className="loading-spinner"><CircularProgress /></Box>;
 
@@ -120,6 +153,37 @@ export const AdminDashboard = () => {
             </StyledTabs>
           </CardContent>
         </Card>
+
+        <Box className="working-hours-container admin-card">
+        <Typography className="section-header">Global Working Hours</Typography>
+        <Stack direction="row" spacing={2} alignItems="center" className="working-hours-stack">
+          <TextField
+            type="time"
+            label="Start Time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            className="working-hours-input"
+          />
+          <TextField
+            type="time"
+            label="End Time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            className="working-hours-input"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSaveWorkingHours}
+            className="edit-button"
+          >
+            Save
+          </Button>
+        </Stack>
+      </Box>
+
 
         {activeTab === 0 && (
           <Card className="admin-card">
@@ -212,6 +276,5 @@ export const AdminDashboard = () => {
     </Box>
   );
 };
-
 
 export default AdminDashboard;

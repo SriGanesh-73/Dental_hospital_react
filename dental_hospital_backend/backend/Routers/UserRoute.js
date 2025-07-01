@@ -7,7 +7,8 @@ const {
   getUserAppointments,
   getAppointmentStatus,
   cancelAppointment,
-  slotAvailability
+  slotAvailability,
+  getWorkingHours
 } = require('../Controllers/UserControllers');
 const authMiddleware = require('../Middleware/authMiddleware');
 const { check } = require('express-validator');
@@ -28,6 +29,7 @@ router.post('/bookappointment', authMiddleware, [
 router.get('/appointments/availability/slots',slotAvailability);
 router.get('/appointments/:user_id',getUserAppointments);
 router.get('/appointments/:app_id',getAppointmentStatus);
+router.get('/settings/time',getWorkingHours);
 router.put('/cancel/appointments/:id',authenticate, cancelAppointment);
 
 module.exports = router;

@@ -3,15 +3,18 @@ const router = express.Router();
 const {
     getAllAppointments,
     getAllUsers,
-    updateAppointmentStatus    
+    updateAppointmentStatus,
+    updateWorkingHours,
+    getWorkingHours    
 } = require('../Controllers/UserControllers');
-const authMiddleware = require('../Middleware/authMiddleware');
 const authenticate = require('../Middleware/authenticate');
 const isAdmin = require('../Middleware/isAdmin');
+router.use(authenticate,isAdmin);
 
-router.use(authenticate, isAdmin,authMiddleware);
-router.get('/appointments', authenticate,isAdmin, getAllAppointments);
+router.get('/appointments', getAllAppointments);
 router.put('/appointments/:id', updateAppointmentStatus);
 router.get('/allusers', getAllUsers);
+router.get('/settings/time',getWorkingHours);
+router.put('/settings/updatetime', updateWorkingHours);
 
 module.exports = router;

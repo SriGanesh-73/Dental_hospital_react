@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { User, Appointment } = require('../Models/UserModels');
+const { GlobalSettings } = require('../Models/GlobalSettings');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
@@ -343,6 +344,50 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
+const updateWorkingHours = async (req, res) => {
+  try {
+    const { startTime, endTime } = req.body;
+    if(!startTime && !endTime){
+      return res.status(400).json({
+        success:false,
+        message:'No Data is sent'
+      });
+    }
+    const workingHours = await GlobalSettings.findOneAndUpdate({key:'user_time_window'},{startTime, endTime},{new:true, upsert:true});
+    console.log(`Working Hours:\nStart Time:${workingHours.startTime} End Time:${workingHours.endTime}`);
+    res.status(201).json({
+      success:true,
+      message:"Working Hours updated",
+      startTime:workingHours.startTime,
+      endTime:workingHours.endTime
+    });
+  }
+  catch (error){
+    return res.status(500).json({
+      success:false,
+      message:"Cannot update time because of some server issue please try again after some time"
+    });
+  }
+};
+
+const getWorkingHours = async (req, res) => {
+  try {
+    const workingHours = await GlobalSettings.findOne({ key: 'user_time_window' });
+    res.status(200).json({
+      success:true,
+      message:"Working hours is retrieved",
+      startTime: workingHours.startTime,
+      endTime:workingHours.endTime
+    });
+  }
+  catch (error){
+    return res.status(500).json({
+      success:false,
+      message:"Failed to get the Working Hours"
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -353,5 +398,7 @@ module.exports = {
   getAllUsers,
   getAppointmentStatus,
   cancelAppointment,
-  slotAvailability
+  slotAvailability,
+  updateWorkingHours,
+  getWorkingHours
 };
